@@ -64,10 +64,8 @@ const tabs: TabConfig[] = [
 ];
 
 function getAtPath(value: unknown, path: PathPart[]) {
-  return path.reduce(
-    (accumulator, key) => accumulator?.[key as keyof typeof accumulator],
-    value as Record<string, unknown>,
-  );
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return path.reduce((accumulator: any, key) => accumulator?.[key], value);
 }
 
 function setAtPath<T>(value: T, path: PathPart[], nextValue: unknown): T {
