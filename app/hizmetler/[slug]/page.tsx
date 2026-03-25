@@ -293,7 +293,7 @@ export default async function ServiceDetailPage({
             </div>
 
             <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-              {relatedPosts.map((post) => (
+              {relatedPosts.map((post) => post && (
                 <Link
                   key={post.slug}
                   href={`/blog/${post.slug}`}
