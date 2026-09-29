@@ -1,25 +1,28 @@
-import type { Metadata } from "next";
-import { Manrope, Urbanist } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Manrope } from "next/font/google";
 import "./globals.css";
+import JsonLd from "@/components/JsonLd";
 import { getCmsData } from "@/lib/cms";
+import { graph, organizationSchema, websiteSchema } from "@/lib/schema";
 import { buildRootMetadata } from "@/lib/seo";
 
-const urbanist = Urbanist({
-  subsets: ["latin"],
-  variable: "--font-urbanist",
-  weight: ["300", "400", "500", "600", "700", "800"],
-});
-
+// Tek font ailesi, iki ağırlık: LCP ve CLS için en hafif seçenek.
 const manrope = Manrope({
-  subsets: ["latin"],
-  variable: "--font-display",
-  weight: ["500", "600", "700", "800"],
+  subsets: ["latin", "latin-ext"],
+  weight: ["500", "700", "800"],
+  display: "swap",
+  variable: "--font-manrope",
 });
 
-export async function generateMetadata(): Promise<Metadata> {
-  const cms = await getCmsData();
-  return buildRootMetadata(cms.site);
-}
+const cms = getCmsData();
+
+export const metadata: Metadata = buildRootMetadata(cms.site);
+
+export const viewport: Viewport = {
+  themeColor: "#fafaf7",
+  width: "device-width",
+  initialScale: 1,
+};
 
 export default function RootLayout({
   children,
@@ -27,11 +30,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="tr">
-      <body
-        className={`${urbanist.variable} ${manrope.variable} antialiased`}
-        style={{ fontFamily: "var(--font-urbanist), sans-serif" }}
-      >
+    <html lang="tr" className={manrope.variable}>
+      <body className="antialiased">
+        <JsonLd data={graph(organizationSchema(cms.site), websiteSchema(cms.site))} />
+        <a
+          href="#icerik"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-ink focus:px-4 focus:py-2 focus:text-white"
+        >
+          İçeriğe atla
+        </a>
         {children}
       </body>
     </html>

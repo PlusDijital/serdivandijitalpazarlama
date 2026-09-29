@@ -1,0 +1,21 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "serdivanreklamajansi",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-09-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
+  },
+  // Gizli değerler (wrangler secret put): RESEND_API_KEY, TURNSTILE_SECRET_KEY
+  // Yerelde: .dev.vars dosyası (git'e girmez)
+  "vars": {
+    "CONTACT_TO_EMAIL": "info@plusdijital.com",
+    "CONTACT_FROM_EMAIL": "Serdivan Reklam Ajansı <form@serdivanreklamajansi.com>",
+    "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "1x00000000000000000000AA"
+  }
+}
