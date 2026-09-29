@@ -13,7 +13,7 @@ export default function Header({
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-bg/95 backdrop-blur supports-[backdrop-filter]:bg-bg/80">
       <div className="container-x flex h-16 items-center justify-between gap-4">
-        <Link href="/" className="flex items-center gap-2.5" aria-label={`${site.brandName} ana sayfa`}>
+        <Link href="/" className="flex items-center gap-2.5">
           <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-ink text-base font-extrabold text-white">
             {site.logoInitial}
           </span>

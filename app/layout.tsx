@@ -6,11 +6,12 @@ import { getCmsData } from "@/lib/cms";
 import { graph, organizationSchema, websiteSchema } from "@/lib/schema";
 import { buildRootMetadata } from "@/lib/seo";
 
-// Tek font ailesi, iki ağırlık: LCP ve CLS için en hafif seçenek.
+// Tek font ailesi; "optional": font ~100 ms içinde gelmezse sistem fontuyla boyanır,
+// böylece LCP yeniden boyama beklemez (ikinci ziyarette font önbellekten gelir).
 const manrope = Manrope({
   subsets: ["latin", "latin-ext"],
   weight: ["500", "700", "800"],
-  display: "swap",
+  display: "optional",
   variable: "--font-manrope",
 });
 

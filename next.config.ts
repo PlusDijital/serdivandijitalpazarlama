@@ -44,6 +44,8 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   // Cloudflare Workers'ta Next görsel optimizasyonu yok; görseller önceden AVIF/WebP hazırlanır.
   images: { unoptimized: true },
+  // CSS küçük (< 10 KB); HTML içine gömmek render-blocking isteği kaldırır (LCP).
+  experimental: { inlineCss: true },
   async redirects() {
     return legacyRedirects.map(([source, destination]) => ({
       source,
