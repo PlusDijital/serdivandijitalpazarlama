@@ -6,7 +6,7 @@ Sıra önemli. İşaretledikçe ilerleyin.
 
 - [ ] `serdivanreklamajansi.com` **18 Kasım 2026'da sona eriyor** (kayıt firması: Atak Domain). Otomatik yenilemeyi açın veya en az 2 yıl yenileyin. Süresi dolan alan adı tüm SEO emeğini sıfırlar.
 
-## 1. Alan adını Cloudflare'e taşıma (DNS)
+## 1. Alan adını Cloudflare'e taşıma (DNS) — tamamlandı
 
 Alan adı şu an Güzel Hosting DNS'inde (`tr.guzelhosting.com` vb.). Cloudflare Workers'a bağlamak için DNS Cloudflare'de olmalı.
 
@@ -15,7 +15,7 @@ Alan adı şu an Güzel Hosting DNS'inde (`tr.guzelhosting.com` vb.). Cloudflare
 - [ ] Alan adında e-posta kullanılıyorsa (MX kayıtları), Cloudflare'in içe aktardığı DNS kayıtlarında MX'in doğru geldiğini kontrol edin.
 - [ ] Cloudflare'de alan adı "Active" olana kadar bekleyin (birkaç dakika ile 24 saat).
 
-## 2. Cloudflare oturumu ve yayın
+## 2. Cloudflare oturumu ve yayın — tamamlandı
 
 ```bash
 cd ~/Developer/serdivanreklamajansi
@@ -26,18 +26,11 @@ npm run deploy
 - [ ] Cloudflare > Workers & Pages > `serdivanreklamajansi` > Settings > Domains & Routes > **Custom domain** ekle: `serdivanreklamajansi.com` ve `www.serdivanreklamajansi.com`.
 - [ ] Rules > Redirect Rules: `www.serdivanreklamajansi.com/*` → `https://serdivanreklamajansi.com/${1}` (301).
 
-## 3. Form: Turnstile ve Resend
+## 3. Form ve e-posta (tamamlandı)
 
-- [ ] Cloudflare > Turnstile > Add widget > domain `serdivanreklamajansi.com`, mod "Managed". Site key'i `wrangler.jsonc` içinde `NEXT_PUBLIC_TURNSTILE_SITE_KEY` alanına yazın (şu an Cloudflare test anahtarı var).
-- [ ] resend.com hesabı > Domains > `serdivanreklamajansi.com` ekle > verilen SPF/DKIM kayıtlarını Cloudflare DNS'e ekleyin > Verify.
-- [ ] Resend > API Keys > yeni anahtar.
-- [ ] Gizli değerler:
-  ```bash
-  npx wrangler secret put RESEND_API_KEY
-  npx wrangler secret put TURNSTILE_SECRET_KEY
-  ```
-- [ ] `npm run deploy` ile tekrar yayınlayın ve formu kendiniz deneyin; e-posta `info@plusdijital.com`'a düşmeli.
-- [ ] `info@serdivanreklamajansi.com` adresini (sitede görünen e-posta) Cloudflare > Email Routing ile `info@plusdijital.com`'a yönlendirin.
+- [x] Form bilgileri WhatsApp mesajı olarak iletiliyor (e-posta servisi gerekmiyor).
+- [x] Cloudflare Email Routing: `info@serdivanreklamajansi.com` ve `info@plusdijital.com` → `plusdijital54@gmail.com`.
+- [ ] (İsteğe bağlı) Gmail > Ayarlar > Hesaplar > "Postayı şu adresten gönder": `info@plusdijital.com`, SMTP `mt-hermes.guzelhosting.com`, port 465, SSL.
 
 ## 4. Cloudflare hız ve bot ayarları
 

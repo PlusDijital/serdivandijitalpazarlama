@@ -35,11 +35,9 @@ Adım adım yapılacaklar `docs/` klasöründe:
 | `docs/06-geo-takip.md` | Yapay zeka aramalarında aylık görünürlük takibi |
 | `docs/07-veri-yazisi-plani.md` | Sektörel tıklama maliyeti veri yazısı planı |
 
-Yerel önizleme için `.dev.vars.example` dosyasını `.dev.vars` olarak kopyalayıp doldurun.
-
 ## Form akışı
 
-`/iletisim` → `POST /api/contact` → Turnstile doğrulama → Resend ile `CONTACT_TO_EMAIL` adresine e-posta. Bal küpü alanı ve IP başına basit hız sınırı vardır.
+`/iletisim` formu sunucuya bir şey göndermez: bilgiler hazır bir WhatsApp mesajı olarak 0539 610 81 54'e açılır (`components/ContactForm.tsx`). Numara `lib/cms-defaults.ts` > `site.business.whatsapp` alanından gelir. `info@serdivanreklamajansi.com` ve `info@plusdijital.com` adresleri Cloudflare Email Routing ile `plusdijital54@gmail.com`'a yönlenir.
 
 ## SEO / GEO
 

@@ -122,7 +122,7 @@ export const blogC: BlogPost[] = [
       {
         heading: "Karar veremiyorsanız",
         body:
-          "Sektörünüzü, mevcut sitenizi ve varsa reklam geçmişinizi ücretsiz analiz edip hangi kanalla ve hangi bütçeyle başlamanız gerektiğini yazılı olarak öneriyoruz. İletişim sayfasındaki formu doldurmanız yeterli; 48 saat içinde e-posta ile dönüyoruz.",
+          "Sektörünüzü, mevcut sitenizi ve varsa reklam geçmişinizi ücretsiz analiz edip hangi kanalla ve hangi bütçeyle başlamanız gerektiğini yazılı olarak öneriyoruz. İletişim sayfasındaki formu doldurmanız ya da WhatsApp'tan yazmanız yeterli; hızlıca dönüyoruz.",
       },
     ],
     faq: [

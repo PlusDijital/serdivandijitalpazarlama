@@ -170,7 +170,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
               <div className="rounded-[var(--radius-card)] bg-ink p-8 text-center text-white">
                 <h2 className="text-2xl font-extrabold">Bunu işletmenize uygulamak ister misiniz?</h2>
                 <p className="mx-auto mt-3 max-w-md text-[0.9375rem] leading-7 text-white/80">
-                  Ücretsiz analizle mevcut durumunuzu inceleyip 48 saat içinde e-posta ile dönelim.
+                  {"Ücretsiz analizle mevcut durumunuzu inceleyip WhatsApp'tan hızlıca dönelim."}
                 </p>
                 <Link href="/iletisim" className="btn btn-accent mt-6">
                   Ücretsiz Teklif Al

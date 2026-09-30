@@ -18,7 +18,7 @@ export function buildLlmsTxt() {
     ...(business.phone ? [`Telefon: ${business.phone}`] : []),
     ...(business.email ? [`E-posta: ${business.email}`] : []),
     ...(business.whatsapp ? [`WhatsApp: https://wa.me/${business.whatsapp}`] : []),
-    `İletişim: ${site.siteUrl}/iletisim (form; iş günlerinde 48 saat içinde e-posta ile dönüş)`,
+    `İletişim: ${site.siteUrl}/iletisim (form bilgileri WhatsApp mesajı olarak iletilir; WhatsApp: 0539 610 81 54)`,
     "",
     "## Kısaca",
     "",

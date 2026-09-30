@@ -207,7 +207,7 @@ export default async function ServiceDetailPage({ params }: { params: Params }) 
                 {service.title} için işletmenize özel plan hazırlayalım
               </h2>
               <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-ink-soft">
-                Formu doldurun; mevcut durumunuzu ücretsiz inceleyip 48 saat içinde e-posta ile somut önerilerle dönelim.
+                {"Formu doldurun ya da WhatsApp'tan yazın; mevcut durumunuzu ücretsiz inceleyip somut önerilerle dönelim."}
               </p>
               <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
                 <Link href="/iletisim" className="btn btn-primary">

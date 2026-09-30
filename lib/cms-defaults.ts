@@ -83,7 +83,7 @@ export const defaultCmsData: CmsData = {
   },
   footer: {
     topPrompt: "Serdivan'da işletmeniz var mı?",
-    topTitle: "Ücretsiz analiz ve teklif için formu doldurun, 48 saat içinde dönelim.",
+    topTitle: "Ücretsiz analiz ve teklif için bize WhatsApp'tan yazın, hızlıca dönelim.",
     topCta: { href: "/iletisim", label: "Teklif Al" },
     brandDescription:
       "Serdivan ve Sakarya'daki işletmeler için Google Ads, Instagram reklamları, SEO, sosyal medya yönetimi ve web tasarım hizmeti veren yerel reklam ajansı.",
@@ -388,8 +388,8 @@ export const defaultCmsData: CmsData = {
       eyebrow: "Sonraki adım",
       title: "Serdivan'da müşteri bulmayı konuşalım",
       description:
-        "Formu doldurun; web sitenizi, Google profilinizi ve reklam hesabınızı ücretsiz inceleyip 48 saat içinde somut önerilerle dönelim.",
-      trustChips: ["Ücretsiz analiz", "48 saat içinde dönüş", "Taahhüt yok"],
+        "Formu doldurun ya da WhatsApp'tan yazın; web sitenizi, Google profilinizi ve reklam hesabınızı ücretsiz inceleyip somut önerilerle dönelim.",
+      trustChips: ["Ücretsiz analiz", "WhatsApp'tan hızlı dönüş", "Taahhüt yok"],
       primaryCta: { href: "/iletisim", label: "Ücretsiz Teklif Al" },
       secondaryCta: { href: "/blog", label: "Önce rehberleri oku" },
     },
@@ -497,7 +497,7 @@ export const defaultCmsData: CmsData = {
     seo: {
       title: "İletişim ve Ücretsiz Teklif",
       description:
-        "Serdivan'da reklam, SEO, sosyal medya veya web sitesi için ücretsiz analiz ve teklif isteyin. Formu doldurun, 48 saat içinde e-posta ile dönüş yapalım.",
+        "Serdivan'da reklam, SEO, sosyal medya veya web sitesi için ücretsiz analiz ve teklif isteyin. Formu doldurun, talebiniz WhatsApp'tan bize ulaşsın.",
       keywords: ["Serdivan reklam ajansı iletişim", "Serdivan reklam teklif", "ücretsiz reklam analizi"],
       canonical: "/iletisim",
       openGraphTitle: "İletişim",
@@ -507,11 +507,11 @@ export const defaultCmsData: CmsData = {
       eyebrow: "İletişim",
       title: "Ücretsiz analiz ve teklif isteyin",
       description:
-        "Formu doldurun; web sitenizi, Google İşletme Profilinizi ve varsa reklam hesabınızı inceleyip 48 saat içinde somut önerilerle e-posta ile dönelim.",
+        "Formu doldurun; bilgileriniz hazır bir WhatsApp mesajı olarak açılır. Web sitenizi, Google İşletme Profilinizi ve varsa reklam hesabınızı inceleyip somut önerilerle dönelim.",
     },
     infoTitle: "Nasıl ilerliyor?",
     infoDescription:
-      "En hızlı yol form ya da WhatsApp. Ardından e-posta ile ön analiz gönderiyor, isterseniz görüşme planlıyoruz.",
+      "Form doğrudan WhatsApp'a iletilir. Ardından ön analizi paylaşıyor, isterseniz görüşme planlıyoruz.",
     contactItems: [
       { icon: "mail", label: "E-posta", value: EMAIL, href: `mailto:${EMAIL}` },
       {
@@ -526,7 +526,7 @@ export const defaultCmsData: CmsData = {
         value: "Serdivan, Adapazarı, Erenler ve Sakarya",
         href: "",
       },
-      { icon: "clock", label: "Dönüş süresi", value: "İş günlerinde 48 saat içinde", href: "" },
+      { icon: "clock", label: "Dönüş süresi", value: "İş günlerinde aynı gün", href: "" },
     ],
     trustNote: {
       eyebrow: "Taahhüdümüz",
@@ -536,20 +536,20 @@ export const defaultCmsData: CmsData = {
     steps: [
       { title: "Formu doldurun", description: "İşletmenizi ve ihtiyacınızı birkaç cümleyle anlatmanız yeterli." },
       { title: "Ön analiz", description: "Sitenizi, Google profilinizi ve reklam hesabınızı inceleriz." },
-      { title: "Teklif ve görüşme", description: "48 saat içinde e-postayla öneri ve teklif; isterseniz görüşme." },
+      { title: "Teklif ve görüşme", description: "WhatsApp'tan öneri ve teklif; isterseniz görüşme." },
     ],
     form: {
       title: "Teklif formu",
-      successTitle: "Mesajınız ulaştı",
-      successDescription: "Teşekkürler. İş günlerinde 48 saat içinde e-posta ile dönüş yapacağız.",
+      successTitle: "WhatsApp açılıyor",
+      successDescription: "Bilgileriniz hazır bir mesaj olarak açılıyor; WhatsApp'ta göndermeniz yeterli. Açılmazsa aşağıdaki düğmeye dokunun.",
       errorMessage: "Gönderim başarısız oldu. Lütfen tekrar deneyin ya da sayfanın altındaki WhatsApp düğmesiyle yazın.",
-      submitLabel: "Teklif İste",
+      submitLabel: "WhatsApp ile Teklif İste",
       loadingLabel: "Gönderiliyor…",
       consentLabel: "Bilgilerimin bana dönüş yapılması amacıyla işlenmesini kabul ediyorum.",
       fields: {
         nameLabel: "Ad Soyad",
         namePlaceholder: "Adınız ve soyadınız",
-        emailLabel: "E-posta",
+        emailLabel: "E-posta (isteğe bağlı)",
         emailPlaceholder: "ornek@isletme.com",
         phoneLabel: "Telefon (isteğe bağlı)",
         phonePlaceholder: "05XX XXX XX XX",
