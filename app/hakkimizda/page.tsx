@@ -83,6 +83,18 @@ export default function About() {
               <span className="eyebrow text-accent-soft">{about.parentBrand.eyebrow}</span>
               <h2 className="mt-4 text-3xl font-extrabold leading-tight">{about.parentBrand.title}</h2>
               <p className="mt-4 max-w-3xl text-lg leading-8 text-white/80">{about.parentBrand.body}</p>
+              {about.parentBrand.inlineLink ? (
+                <p className="mt-3 max-w-3xl text-lg leading-8 text-white/80">
+                  {about.parentBrand.inlineLink.before}
+                  <a
+                    href={about.parentBrand.inlineLink.link.href}
+                    className="font-bold text-accent-soft underline underline-offset-4 hover:text-white"
+                  >
+                    {about.parentBrand.inlineLink.link.label}
+                  </a>
+                  {about.parentBrand.inlineLink.after}
+                </p>
+              ) : null}
               <a
                 href={about.parentBrand.cta.href}
                 rel="noopener"

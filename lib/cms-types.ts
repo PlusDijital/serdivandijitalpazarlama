@@ -256,7 +256,14 @@ export type AboutContent = {
   mission: { title: string; icon: IconName; body: string };
   vision: { title: string; icon: IconName; body: string };
   values: { eyebrow: string; title: string; items: AboutValue[] };
-  parentBrand: { eyebrow: string; title: string; body: string; cta: LinkItem };
+  parentBrand: {
+    eyebrow: string;
+    title: string;
+    body: string;
+    /** Metnin sonuna eklenen, bağlamsal bağlantı içeren cümle: before + link + after */
+    inlineLink?: { before: string; link: LinkItem; after: string };
+    cta: LinkItem;
+  };
   /** Gerçek ekip üyeleri; boşsa bölüm gizlenir. */
   team: { eyebrow: string; title: string; items: TeamMember[] };
   cta: { title: string; description: string; button: LinkItem };

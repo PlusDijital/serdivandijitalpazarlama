@@ -455,6 +455,11 @@ export const defaultCmsData: CmsData = {
       title: "Arkamızdaki kurumsal ekip",
       body:
         "Plus Dijital, Sakarya merkezli ve Türkiye genelinde çalışan bir Google Partner dijital reklam ajansıdır. Serdivan Reklam Ajansı, bu ekibin Serdivan'daki yerel işletmelere odaklanan markasıdır; aynı uzmanlık, ilçeye özel plan.",
+      inlineLink: {
+        before: "Plus Dijital'in Arabacıalanı'ndaki ofisini ve kurumsal hizmetlerini tanımak için ",
+        link: { href: "https://plusdijital.com/serdivan-reklam-ajansi/", label: "Serdivan reklam ajansı" },
+        after: " sayfasına göz atabilirsiniz.",
+      },
       cta: { href: "https://plusdijital.com", label: "plusdijital.com" },
     },
     team: {
