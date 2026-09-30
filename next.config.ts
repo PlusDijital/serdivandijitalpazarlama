@@ -50,9 +50,16 @@ const nextConfig: NextConfig = {
   images: { unoptimized: true },
   async redirects() {
     return [
-      // www → çıplak alan adı (tek kanonik adres)
+      // www → çıplak alan adı (tek kanonik adres). Kök yol ayrı kural: "/:path*" boş yolda
+      // hedefe ":path*" metnini olduğu gibi yazıyordu.
       {
-        source: "/:path*",
+        source: "/",
+        has: [{ type: "host" as const, value: "www.serdivanreklamajansi.com" }],
+        destination: "https://serdivanreklamajansi.com/",
+        permanent: true,
+      },
+      {
+        source: "/:path+",
         has: [{ type: "host" as const, value: "www.serdivanreklamajansi.com" }],
         destination: "https://serdivanreklamajansi.com/:path*",
         permanent: true,
