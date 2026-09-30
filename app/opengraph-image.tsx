@@ -46,7 +46,7 @@ export default function OpengraphImage() {
           <div style={{ fontSize: 34, color: "#0e7c66", fontWeight: 700 }}>
             Google Ads · Instagram Reklam · SEO · Web Tasarım
           </div>
-          <div style={{ fontSize: 24, color: "#4b5563" }}>Plus Dijital'in Serdivan'daki yerel markası</div>
+          <div style={{ fontSize: 24, color: "#4b5563" }}>{"Plus Dijital'in Serdivan'daki yerel markası"}</div>
         </div>
       </div>
     ),

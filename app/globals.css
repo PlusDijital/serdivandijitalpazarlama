@@ -158,6 +158,21 @@
     color: var(--color-accent);
   }
 
+  /* Hero arka planı: saf CSS nokta ızgarası + yumuşak renk, görsel dosyası yok. */
+  .hero-bg {
+    background-color: var(--color-surface);
+    background-image:
+      radial-gradient(60rem 30rem at 85% -10%, rgba(14, 124, 102, 0.1), transparent 60%),
+      radial-gradient(circle at 1px 1px, rgba(11, 27, 51, 0.07) 1px, transparent 0);
+    background-size:
+      auto,
+      22px 22px;
+  }
+
+  .toc a:hover {
+    color: var(--color-accent);
+  }
+
   .reveal {
     animation: fade-up 0.6s ease both;
   }

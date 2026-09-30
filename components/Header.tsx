@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Menu } from "lucide-react";
+import Logo from "@/components/Logo";
 import type { HeaderContent, SiteSettings } from "@/lib/cms-types";
 
 /** Sunucu bileşeni: mobil menü <details> ile açılır, JavaScript gerekmez. */
@@ -11,22 +12,23 @@ export default function Header({
   header: HeaderContent;
 }) {
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-bg/95 backdrop-blur supports-[backdrop-filter]:bg-bg/80">
-      <div className="container-x flex h-16 items-center justify-between gap-4">
+    <header className="sticky top-0 z-50 border-b border-line/80 bg-bg/90 backdrop-blur-md">
+      <div className="container-x flex h-16 items-center justify-between gap-4 md:h-[4.5rem]">
         <Link href="/" className="flex items-center gap-2.5">
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-ink text-base font-extrabold text-white">
-            {site.logoInitial}
+          <Logo />
+          <span className="flex flex-col leading-none">
+            <span className="text-[1.0625rem] font-extrabold tracking-tight text-ink">{site.brandShortName}</span>
+            <span className="mt-1 text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-muted">Ajansı · Serdivan</span>
           </span>
-          <span className="text-lg font-extrabold tracking-tight text-ink">{site.brandShortName}</span>
         </Link>
 
         <nav aria-label="Ana menü" className="hidden md:block">
-          <ul className="flex items-center gap-7">
+          <ul className="flex items-center gap-1">
             {header.navLinks.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="text-[0.9375rem] font-semibold text-ink-soft transition-colors hover:text-accent"
+                  className="rounded-full px-3.5 py-2 text-[0.9375rem] font-semibold text-ink-soft transition-colors hover:bg-surface-soft hover:text-ink"
                 >
                   {link.label}
                 </Link>

@@ -2,6 +2,8 @@
 
 Plus Dijital'in Serdivan'a odaklanan yerel marka sitesi. Next.js 16 (App Router) + Tailwind v4, Cloudflare Workers üzerinde OpenNext adaptörüyle çalışır. İçerik koddan gelir; admin paneli yoktur.
 
+> **Önemli:** Projeyi Masaüstü veya Belgeler gibi iCloud ile eşitlenen bir klasörde çalıştırmayın. "Depolamayı optimize et" açıkken `node_modules` ve `.next` buluta boşaltılıyor; derleme dakikalarca sürüyor, sunucu açılmıyor. Çalışma kopyası: `~/Developer/serdivanreklamajansi`.
+
 ## Komutlar
 
 | Komut | Ne yapar |

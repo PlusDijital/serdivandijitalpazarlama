@@ -31,10 +31,11 @@ export default function Blog() {
           <div className="container-x">
             {featured ? (
               <div className="mb-6">
-                <p className="eyebrow mb-4">{cms.blogIndex.featuredLabel}</p>
+                <h2 className="eyebrow mb-4">{cms.blogIndex.featuredLabel}</h2>
                 <PostCard post={featured} featured />
               </div>
             ) : null}
+            <h2 className="sr-only">Tüm yazılar</h2>
             <ul className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
               {rest.map((post) => (
                 <li key={post.slug} className="reveal">

@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import JsonLd from "@/components/JsonLd";
 import LocalWhy from "@/components/LocalWhy";
+import PlatformStrip from "@/components/PlatformStrip";
 import Process from "@/components/Process";
 import Sectors from "@/components/Sectors";
 import Services from "@/components/Services";
@@ -27,6 +28,7 @@ export default function Home() {
       <Header site={cms.site} header={cms.header} />
       <main id="icerik">
         <Hero content={home.hero} />
+        <PlatformStrip />
         <section className="container-x py-10 md:py-14" aria-label="Özet">
           <div className="max-w-3xl">
             <Summary text={home.summary} />

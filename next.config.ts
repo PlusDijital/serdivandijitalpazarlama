@@ -1,7 +1,11 @@
 import type { NextConfig } from "next";
 import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 
-initOpenNextCloudflareForDev();
+// Cloudflare binding'lerini yalnızca `next dev` sırasında yerel olarak sağlar;
+// `next start` ve derleme sırasında çalışırsa sunucu açılışı takılabiliyor.
+if (process.env.NODE_ENV === "development") {
+  initOpenNextCloudflareForDev();
+}
 
 // Eski adresleri kalıcı olarak yeni sayfalara yönlendirir.
 const legacyRedirects: [string, string][] = [
@@ -44,8 +48,6 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   // Cloudflare Workers'ta Next görsel optimizasyonu yok; görseller önceden AVIF/WebP hazırlanır.
   images: { unoptimized: true },
-  // CSS küçük (< 10 KB); HTML içine gömmek render-blocking isteği kaldırır (LCP).
-  experimental: { inlineCss: true },
   async redirects() {
     return legacyRedirects.map(([source, destination]) => ({
       source,
