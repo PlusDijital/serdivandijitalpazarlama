@@ -8,7 +8,7 @@ import PageHero from "@/components/PageHero";
 import SectionHeading from "@/components/SectionHeading";
 import { getCmsData } from "@/lib/cms";
 import { ContentIcon } from "@/lib/icon-map";
-import { breadcrumbSchema, graph } from "@/lib/schema";
+import { breadcrumbSchema, graph, orgId } from "@/lib/schema";
 import { buildPageMetadata } from "@/lib/seo";
 
 const cms = getCmsData();
@@ -20,7 +20,20 @@ export default function About() {
 
   return (
     <>
-      <JsonLd data={graph(breadcrumbSchema(cms.site, [{ name: "Hakkımızda", path: "/hakkimizda" }]))} />
+      <JsonLd
+        data={graph(
+          breadcrumbSchema(cms.site, [{ name: "Hakkımızda", path: "/hakkimizda" }]),
+          ...about.team.items.map((member) => ({
+            "@type": "Person",
+            name: member.name,
+            jobTitle: member.role,
+            description: member.bio,
+            worksFor: { "@id": orgId(cms.site) },
+            ...(member.photo ? { image: `${cms.site.siteUrl}${member.photo}` } : {}),
+            ...(member.linkedin ? { sameAs: [member.linkedin] } : {}),
+          })),
+        )}
+      />
       <Header site={cms.site} header={cms.header} />
       <main id="icerik">
         <PageHero
@@ -81,6 +94,48 @@ export default function About() {
             </div>
           </div>
         </section>
+
+
+        {about.team.items.length > 0 ? (
+          <section className="border-t border-line bg-surface py-16 md:py-20">
+            <div className="container-x">
+              <SectionHeading eyebrow={about.team.eyebrow} title={about.team.title} />
+              <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {about.team.items.map((member) => (
+                  <li key={member.name} className="card flex gap-4 p-6">
+                    {member.photo ? (
+                      // Küçük, tembel yüklenen sabit boyutlu fotoğraf; next/image Workers'ta optimize etmiyor.
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={member.photo}
+                        alt={member.name}
+                        width={72}
+                        height={72}
+                        loading="lazy"
+                        decoding="async"
+                        className="h-[72px] w-[72px] shrink-0 rounded-full object-cover"
+                      />
+                    ) : (
+                      <span className="flex h-[72px] w-[72px] shrink-0 items-center justify-center rounded-full bg-accent-soft text-2xl font-extrabold text-accent">
+                        {member.name.charAt(0)}
+                      </span>
+                    )}
+                    <div>
+                      <h3 className="text-lg font-bold text-ink">{member.name}</h3>
+                      <p className="text-sm font-semibold text-accent">{member.role}</p>
+                      <p className="mt-2 text-sm leading-6 text-muted">{member.bio}</p>
+                      {member.linkedin ? (
+                        <a href={member.linkedin} rel="noopener" className="mt-2 inline-block text-sm font-bold text-ink hover:text-accent">
+                          LinkedIn
+                        </a>
+                      ) : null}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        ) : null}
 
         <section className="border-t border-line bg-surface py-16">
           <div className="container-x text-center">

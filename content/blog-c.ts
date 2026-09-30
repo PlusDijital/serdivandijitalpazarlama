@@ -143,4 +143,145 @@ export const blogC: BlogPost[] = [
       },
     ],
   },
+  {
+    slug: "serdivan-kafe-restoran-instagram-reklami",
+    title: "Serdivan'da Kafe ve Restoranlar İçin Instagram Reklamı: Adım Adım Rehber",
+    metaTitle: "Serdivan Kafe ve Restoran Instagram Reklamı Rehberi",
+    metaDescription:
+      "Serdivan'daki kafe ve restoranlar için Instagram reklamı: konum hedefleme, kampüs takvimi, reklam formatları, bütçe ve Google Haritalar ile birlikte kullanım.",
+    excerpt:
+      "Esentepe Kampüsü'nün yanındaki bir kafe ile Serdivan AVM çevresindeki bir restoranın reklam stratejisi aynı olmamalı. Konum, zamanlama ve içerik için pratik plan.",
+    date: "30 Eylül 2026",
+    readTime: "7 dk",
+    category: "Sosyal Medya Reklamları",
+    intro:
+      "Serdivan'da kafe ve restoranların müşterisi çoğunlukla yakında yaşayan, çalışan veya okuyan insanlardır ve karar çoğu zaman Instagram'da verilir: bir fotoğraf, bir hikaye, bir arkadaşın paylaşımı. Bu rehberde Instagram reklamlarını Serdivan'a özel nasıl kuracağınızı, hangi formatların işe yaradığını ve bütçeyi nasıl böleceğinizi anlatıyoruz.",
+    summary:
+      "Serdivan'daki kafe ve restoranlar için en verimli Instagram reklamı; işletmenin 2-4 km çevresini hedefleyen, dikey video veya hikaye formatında, belirli bir saat ya da teklifle çağrı yapan kampanyadır. Öğrenciye hitap eden işletmeler Sakarya Üniversitesi akademik takvimine göre bütçe planlamalı, Google Haritalar profili de reklamla birlikte güncel tutulmalıdır.",
+    primaryKeyword: "serdivan kafe instagram reklamı",
+    secondaryKeywords: [
+      "serdivan restoran reklam",
+      "kafe instagram reklamı nasıl verilir",
+      "restoran sosyal medya reklamı",
+      "serdivan instagram reklam",
+    ],
+    relatedServiceSlug: "serdivan-instagram-reklam-yonetimi",
+    sections: [
+      {
+        heading: "Neden Instagram, neden şimdi?",
+        body:
+          "Kafe ve restoran kararları büyük ölçüde görseldir ve anlıktır. İnsanlar \"Serdivan'da kafe\" diye arama yapmaktan çok, akışta gördükleri bir tabak, bir ortam ya da bir kampanya üzerine karar verir. Instagram reklamları, henüz aramaya başlamamış bu kitleye işletmenizi gösterir.\n\nGoogle'ın rolü ise farklıdır: \"yakınımdaki kafe\" araması yapan kişi Google Haritalar'da sizi bulur. Bu yüzden en iyi sonuç iki kanalın birlikte çalışmasıyla gelir: Instagram merak uyandırır, Google Haritalar profili yol tarifini ve yorumları sunar.",
+      },
+      {
+        heading: "Konum hedeflemesi: Serdivan'ın tamamı değil, çevreniz",
+        body:
+          "Instagram reklamlarında en sık yapılan hata tüm Sakarya'yı hedeflemektir. Bir kafe için anlamlı müşteri, işletmeye birkaç dakika uzaklıkta olan kişidir.\n\n- Yürüme mesafesine hitap eden kafeler için işletmenin çevresinde 2-3 km yarıçap yeterlidir.\n- Arabayla gelinen restoranlar için 5-8 km ve Adapazarı'nın komşu mahalleleri eklenebilir.\n- Esentepe Kampüsü çevresindeki işletmeler kampüsü ve yurt bölgelerini ayrı bir kitle olarak hedefleyebilir.\n- Konum seçeneğinde \"bu bölgede yaşayanlar veya son zamanlarda bulunanlar\" seçilmeli; bölgeyle yalnızca ilgilenenler hariç tutulmalıdır.",
+      },
+      {
+        heading: "Kampüs takvimine göre bütçe planı",
+        body:
+          "Serdivan'da öğrenciye hitap eden işletmeler için yılın her ayı aynı değildir. Bütçeyi takvime göre dağıtmak aynı parayla daha fazla müşteri getirir:\n\n- Eylül-Ekim dönem başı: yeni öğrenciler çevreyi keşfediyor, bilinirlik kampanyası için en iyi zaman.\n- Vize ve final haftaları: ders çalışma alanı, uzun açık saatler ve paket servis öne çıkarılabilir.\n- Yaz tatili: öğrenci kitlesi azalır; bütçe aile ve çalışan kitlesine, akşam ve hafta sonu saatlerine kaydırılır.\n\nÖğrenci ağırlıklı olmayan restoranlarda ise hafta sonu ve bayram öncesi dönemler daha belirleyicidir.",
+      },
+      {
+        heading: "İşe yarayan reklam formatları",
+        body:
+          "- Dikey video (Reels ve hikaye): İlk üç saniyede ürünü, sunumu veya ortamı gösterin. Telefonla çekilmiş, doğal görüntüler çoğu zaman stüdyo çekiminden daha iyi sonuç verir.\n- Carousel: Menüden 4-5 öne çıkan ürün, her kartta tek ürün ve fiyat.\n- Teklif odaklı hikaye: \"Hafta içi 14.00-17.00 arası kahve yanında tatlı\" gibi zamanlı ve somut bir çağrı.\n- Etkinlik duyurusu: Canlı müzik, maç yayını veya tadım günü için tarihli kısa kampanyalar.\n\nHer reklamda tek bir eylem isteyin: yol tarifi al, menüyü gör ya da rezervasyon için mesaj at.",
+      },
+      {
+        heading: "Ne kadar bütçe ayırmalı?",
+        body:
+          "Instagram reklamlarında tıklama ve erişim maliyeti kitleye, sezona ve içeriğin ilgi görmesine göre değişir. Serdivan ölçeğinde bir kafe için ilk ay küçük bir test bütçesiyle 2-3 farklı içerik denemek, hangisinin daha fazla profil ziyareti ve yol tarifi getirdiğini görmek için yeterlidir. Kazanan içerik belirlendikten sonra bütçe o içeriğe kaydırılır.\n\nÖnemli olan harcamanın ne getirdiğini ölçmektir: profil ziyaretleri, yol tarifi talepleri, rezervasyon mesajları ve kampanya koduyla gelen siparişler takip edilmelidir.",
+      },
+      {
+        heading: "Reklamı destekleyen üç ücretsiz adım",
+        body:
+          "- Google İşletme Profili: Çalışma saatleri, menü, güncel fotoğraflar ve yorumlara cevap. Reklamı gören kişi büyük ihtimalle sizi haritada da kontrol eder.\n- Instagram profili: Biyografide adres bölgesi, saatler ve tek bir bağlantı (menü veya rezervasyon). Sabitlenmiş üç gönderi: menü, ortam, konum.\n- Yorum toplama: Masada QR kodla Google yorum bağlantısı. Yorum sayısı ve güncelliği harita sıralamasını doğrudan etkiler.",
+      },
+    ],
+    faq: [
+      {
+        question: "Kafe için Instagram reklamı mı, Google reklamı mı?",
+        answer:
+          "Kafe ve restoranlar için genellikle Instagram reklamı önce gelir; çünkü karar görsel ve anlıktır. Google tarafında ise ücretli reklamdan önce Google İşletme Profili ve yorumlar önemlidir. En iyi sonuç ikisinin birlikte kullanılmasıyla alınır.",
+      },
+      {
+        question: "Instagram reklamında hangi konumu hedeflemeliyim?",
+        answer:
+          "İşletmenizin çevresinde 2-5 km yarıçap çoğu kafe için yeterlidir. Tüm Sakarya'yı hedeflemek bütçeyi gelmeyecek kişilere harcatır. Konum ayarında bölgede bulunan kişileri seçip bölgeyle yalnızca ilgilenenleri hariç tutun.",
+      },
+      {
+        question: "Reklam için profesyonel çekim şart mı?",
+        answer:
+          "Hayır. Telefonla çekilmiş, iyi ışıklı ve doğal dikey videolar Instagram'da çoğu zaman daha iyi performans gösterir. Önemli olan ilk üç saniyede ürünü veya ortamı net göstermek ve tek bir çağrı yapmaktır.",
+      },
+    ],
+  },
+  {
+    slug: "serdivan-dis-klinigi-google-ads",
+    title: "Serdivan'da Diş Kliniği ve Sağlık İşletmeleri İçin Google Ads Rehberi",
+    metaTitle: "Serdivan Diş Kliniği Google Ads Rehberi | Kurallar ve Strateji",
+    metaDescription:
+      "Serdivan'daki diş klinikleri ve sağlık işletmeleri için Google Ads: tanıtım kurallarına uygun reklam metni, anahtar kelime seçimi, konum ayarı ve randevu takibi.",
+    excerpt:
+      "Sağlık alanında reklam hem Google politikalarına hem Türkiye'deki tanıtım kurallarına uymak zorunda. Randevu getiren ama kurallara takılmayan kampanya nasıl kurulur?",
+    date: "30 Eylül 2026",
+    readTime: "8 dk",
+    category: "Google Ads",
+    intro:
+      "Diş kliniği, fizik tedavi merkezi veya muayenehane için Google Ads, randevu arayan kişiye tam arama anında ulaşmanın en hızlı yoludur. Ancak sağlık alanı diğer sektörlerden farklıdır: reklam metinleri hem Google'ın sağlık politikalarına hem de Türkiye'deki sağlık hizmetleri tanıtım kurallarına uygun olmalıdır. Bu rehberde Serdivan'daki sağlık işletmeleri için güvenli ve verimli bir kampanyanın nasıl kurulacağını anlatıyoruz.",
+    summary:
+      "Serdivan'daki diş klinikleri için Google Ads; \"Serdivan diş hekimi\" ve \"yakınımda diş kliniği\" gibi niyet taşıyan aramaları hedefleyen, kliniğin 5-10 km çevresiyle sınırlı, randevu aramalarını ve formlarını ölçen bir arama kampanyasıdır. Reklam metinleri yanıltıcı vaat, önce-sonra karşılaştırması ve indirim vurgusu içermemeli; bilgilendirici ve sade olmalıdır.",
+    primaryKeyword: "serdivan diş kliniği google ads",
+    secondaryKeywords: [
+      "diş kliniği google reklamı",
+      "serdivan diş hekimi reklam",
+      "sağlık google ads kuralları",
+      "klinik reklam ajansı sakarya",
+    ],
+    relatedServiceSlug: "serdivan-google-ads-yonetimi",
+    sections: [
+      {
+        heading: "Sağlıkta reklamın kuralları",
+        body:
+          "Türkiye'de sağlık kuruluşlarının tanıtımı Sağlık Bakanlığı mevzuatıyla sınırlandırılmıştır; ayrıntılar için güncel yönetmeliği ve bağlı olduğunuz meslek odasının rehberini esas almalısınız. Pratikte reklam metinlerinde şunlardan kaçınmak gerekir:\n\n- \"En iyi\", \"garantili\", \"acısız\" gibi kesin veya karşılaştırmalı vaatler\n- Önce-sonra görselleri ve hasta yorumlarının reklamda kullanılması\n- Fiyat, indirim ve kampanya vurgusu\n- Tedavi sonucuna dair iddialar\n\nGoogle da sağlıkla ilgili bazı ürün ve hizmetlerde ek kısıtlamalar uygular. Bilgilendirici, sade ve doğrulanabilir metinler hem kurallara uyar hem de kullanıcıda güven oluşturur.",
+      },
+      {
+        heading: "Doğru anahtar kelimeler: niyet taşıyan aramalar",
+        body:
+          "Sağlıkta tıklama maliyeti yüksek olduğu için bütçeyi yalnızca randevu niyeti taşıyan aramalara harcamak gerekir:\n\n- Hedeflenecekler: \"Serdivan diş hekimi\", \"Serdivan diş kliniği\", \"yakınımda diş kliniği\", \"Serdivan implant\", \"Sakarya diş hekimi randevu\"\n- Hariç tutulacaklar: \"diş ağrısına ne iyi gelir\", \"ücretsiz\", \"iş ilanı\", \"diş hekimliği fakültesi\", \"taban puanı\", \"nasıl yapılır\"\n\nNegatif anahtar kelime listesi ilk haftadan itibaren arama terimleri raporuna bakılarak büyütülmelidir; Sakarya Üniversitesi nedeniyle bölgede eğitimle ilgili aramalar sık görülür.",
+      },
+      {
+        heading: "Konum ve zamanlama",
+        body:
+          "Diş kliniği hastalarının büyük kısmı yakın çevreden gelir. Kliniğin 5-10 km çevresini hedeflemek, Serdivan ve Adapazarı'nın komşu mahallelerini kapsamak için yeterlidir. Konum seçeneğinde bölgede bulunan kişiler seçilmelidir.\n\nReklamları kliniğin telefonlara cevap verebildiği saatlerde yoğunlaştırın. Mesai dışında gelen aramalar cevapsız kalırsa hem bütçe boşa gider hem de hasta başka kliniğe geçer. Mesai dışı için yalnızca form veya WhatsApp çağrısı içeren reklamlar ayrı tutulabilir.",
+      },
+      {
+        heading: "Açılış sayfası: randevuyu kolaylaştırın",
+        body:
+          "Reklamdan gelen kişi ana sayfaya değil, aradığı hizmetin sayfasına gitmelidir. Etkili bir klinik açılış sayfasında:\n\n- İlk ekranda hizmet adı, kliniğin bölgesi ve tıklanabilir telefon/WhatsApp butonu\n- Hekim bilgisi: isim, uzmanlık alanı ve eğitim\n- Klinik fotoğrafları, ulaşım ve otopark bilgisi\n- Çalışma saatleri ve randevu formu (en fazla 3-4 alan)\n- Mevzuata uygun, bilgilendirici tedavi açıklaması\n\nSayfanın mobilde hızlı açılması, sağlık aramalarının büyük kısmı telefondan yapıldığı için kritik önemdedir.",
+      },
+      {
+        heading: "Ölçüm: tıklama değil randevu",
+        body:
+          "Kampanyanın başarısı randevu sayısıyla ölçülür. Kurulması gereken takipler:\n\n- Reklamdaki arama uzantısından gelen telefon aramaları (belirli süreyi aşan aramalar dönüşüm sayılır)\n- Web sitesindeki telefon ve WhatsApp butonu tıklamaları\n- Randevu formu gönderimleri\n- Mümkünse gerçekleşen randevuların çevrimdışı dönüşüm olarak Google Ads'e geri yüklenmesi\n\nBu veri olmadan otomatik teklif stratejileri neyi hedefleyeceğini bilemez ve bütçe ucuz ama işe yaramayan tıklamalara kayar.",
+      },
+    ],
+    faq: [
+      {
+        question: "Diş kliniği Google'da reklam verebilir mi?",
+        answer:
+          "Evet, ancak reklam metinleri Türkiye'deki sağlık hizmetleri tanıtım kurallarına ve Google'ın sağlık politikalarına uygun olmalıdır. Yanıltıcı vaat, önce-sonra görseli, fiyat ve indirim vurgusu kullanılmamalı; bilgilendirici ve sade metinler tercih edilmelidir.",
+      },
+      {
+        question: "Diş kliniği için Google Ads bütçesi ne kadar olmalı?",
+        answer:
+          "Sağlıkta tıklama maliyeti diğer sektörlere göre yüksektir. Serdivan ölçeğinde bir klinik, ilk ay anlamlı veri toplamak için ayda birkaç düzine nitelikli tıklama alacak bir bütçeyle başlamalı; kesin tutar hedeflenen tedaviye ve rekabete göre ücretsiz analizde netleştirilir.",
+      },
+      {
+        question: "Google Ads mi, yerel SEO mu?",
+        answer:
+          "İkisi birlikte çalışmalıdır. Google Ads hemen randevu getirir; Google İşletme Profili ve yerel SEO ise zamanla reklam bütçesine bağımlılığı azaltır. Sağlıkta yorumlar ve eksiksiz harita profili özellikle belirleyicidir.",
+      },
+    ],
+  },
 ];

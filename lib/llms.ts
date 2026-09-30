@@ -17,6 +17,7 @@ export function buildLlmsTxt() {
     `Hizmet bölgesi: ${areas}. Hizmet bölgesi işletmesidir; müşteri kabul edilen açık bir adres yayınlanmaz.`,
     ...(business.phone ? [`Telefon: ${business.phone}`] : []),
     ...(business.email ? [`E-posta: ${business.email}`] : []),
+    ...(business.whatsapp ? [`WhatsApp: https://wa.me/${business.whatsapp}`] : []),
     `İletişim: ${site.siteUrl}/iletisim (form; iş günlerinde 48 saat içinde e-posta ile dönüş)`,
     "",
     "## Kısaca",

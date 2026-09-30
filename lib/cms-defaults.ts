@@ -60,7 +60,8 @@ export const defaultCmsData: CmsData = {
     business: {
       // Telefon girildiğinde sitede, schema'da ve llms.txt'de otomatik görünür.
       phone: "",
-      whatsapp: "",
+      // Plus Dijital WhatsApp hattı (plusdijital.com'da herkese açık). Boş bırakılırsa butonlar gizlenir.
+      whatsapp: "905396108154",
       email: EMAIL,
       // Açık adres yok: hizmet bölgesi işletmesi olarak işaretlenir.
       streetAddress: "",
@@ -108,6 +109,12 @@ export const defaultCmsData: CmsData = {
     ],
     contactItems: [
       { icon: "mail", label: "E-posta", value: EMAIL, href: `mailto:${EMAIL}` },
+      {
+        icon: "send",
+        label: "WhatsApp",
+        value: "0539 610 81 54",
+        href: "https://wa.me/905396108154",
+      },
       {
         icon: "map-pin",
         label: "Hizmet bölgesi",
@@ -352,6 +359,14 @@ export const defaultCmsData: CmsData = {
         },
       ],
     },
+    caseStudies: {
+      eyebrow: "Vaka çalışmaları",
+      title: "Serdivan'daki işletmelerle yaptığımız işler",
+      description:
+        "Müşterilerimizin izniyle paylaştığımız örnekler: başlangıç durumu, yaptığımız çalışma ve ölçülen sonuç.",
+      // Gerçek ve izinli örnekler eklendiğinde bölüm ana sayfada görünür. Şablon: docs/vaka-calismasi-sablonu.md
+      items: [],
+    },
     trust: {
       eyebrow: "Plus Dijital güvencesi",
       title: "Yerel marka, kurumsal altyapı",
@@ -438,6 +453,12 @@ export const defaultCmsData: CmsData = {
         "Plus Dijital, Sakarya merkezli ve Türkiye genelinde çalışan bir Google Partner dijital reklam ajansıdır. Serdivan Reklam Ajansı, bu ekibin Serdivan'daki yerel işletmelere odaklanan markasıdır; aynı uzmanlık, ilçeye özel plan.",
       cta: { href: "https://plusdijital.com", label: "plusdijital.com" },
     },
+    team: {
+      eyebrow: "Ekip",
+      title: "Projenizi yürütecek kişiler",
+      // Gerçek ekip üyeleri eklendiğinde görünür. Fotoğraflar public/ekip/ altına (400x400 WebP).
+      items: [],
+    },
     cta: {
       title: "Bizimle çalışmak ister misiniz?",
       description: "Ücretsiz ilk görüşmede işletmenizi dinleyelim, size özel bir plan çıkaralım.",
@@ -481,9 +502,15 @@ export const defaultCmsData: CmsData = {
     },
     infoTitle: "Nasıl ilerliyor?",
     infoDescription:
-      "Telefon trafiği yerine yazılı ve net bir başlangıç tercih ediyoruz: form, ardından e-posta ile ön analiz, sonra isterseniz görüşme.",
+      "En hızlı yol form ya da WhatsApp. Ardından e-posta ile ön analiz gönderiyor, isterseniz görüşme planlıyoruz.",
     contactItems: [
       { icon: "mail", label: "E-posta", value: EMAIL, href: `mailto:${EMAIL}` },
+      {
+        icon: "send",
+        label: "WhatsApp",
+        value: "0539 610 81 54",
+        href: "https://wa.me/905396108154",
+      },
       {
         icon: "map-pin",
         label: "Hizmet bölgesi",
@@ -506,7 +533,7 @@ export const defaultCmsData: CmsData = {
       title: "Teklif formu",
       successTitle: "Mesajınız ulaştı",
       successDescription: "Teşekkürler. İş günlerinde 48 saat içinde e-posta ile dönüş yapacağız.",
-      errorMessage: "Gönderim başarısız oldu. Lütfen tekrar deneyin veya e-posta ile yazın.",
+      errorMessage: "Gönderim başarısız oldu. Lütfen tekrar deneyin ya da WhatsApp veya e-posta ile yazın.",
       submitLabel: "Teklif İste",
       loadingLabel: "Gönderiliyor…",
       consentLabel: "Bilgilerimin bana dönüş yapılması amacıyla işlenmesini kabul ediyorum.",

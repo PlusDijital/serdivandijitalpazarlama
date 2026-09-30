@@ -183,6 +183,34 @@ export type HomeTrustContent = {
   cta: LinkItem;
 };
 
+export type CaseStudy = {
+  client: string;
+  sector: string;
+  area: string;
+  challenge: string;
+  work: string;
+  result: string;
+  quote?: string;
+  quoteAuthor?: string;
+};
+
+export type HomeCaseStudiesContent = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  /** Yalnızca gerçek ve müşteri izni alınmış örnekler; boşsa bölüm gizlenir. */
+  items: CaseStudy[];
+};
+
+export type TeamMember = {
+  name: string;
+  role: string;
+  bio: string;
+  /** /public altındaki fotoğraf yolu (ör. /ekip/ad-soyad.webp), 400x400 önerilir. */
+  photo?: string;
+  linkedin?: string;
+};
+
 export type HomeCtaContent = {
   eyebrow: string;
   title: string;
@@ -202,6 +230,7 @@ export type HomeContent = {
   process: HomeProcessContent;
   sectors: HomeSectorsContent;
   faq: { eyebrow: string; title: string; items: Faq[] };
+  caseStudies: HomeCaseStudiesContent;
   trust: HomeTrustContent;
   cta: HomeCtaContent;
 };
@@ -224,6 +253,8 @@ export type AboutContent = {
   vision: { title: string; icon: IconName; body: string };
   values: { eyebrow: string; title: string; items: AboutValue[] };
   parentBrand: { eyebrow: string; title: string; body: string; cta: LinkItem };
+  /** Gerçek ekip üyeleri; boşsa bölüm gizlenir. */
+  team: { eyebrow: string; title: string; items: TeamMember[] };
   cta: { title: string; description: string; button: LinkItem };
 };
 

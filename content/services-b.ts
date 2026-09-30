@@ -224,6 +224,7 @@ export const servicesB: ServiceLandingPage[] = [
       },
     ],
     relatedPosts: [
+      "serdivan-dis-klinigi-google-ads",
       "google-ads-butcesi-ne-kadar-olmali",
       "serdivan-reklam-ajansi-nasil-secilir",
       "serdivan-dijital-pazarlama-stratejisi",
@@ -358,6 +359,7 @@ export const servicesB: ServiceLandingPage[] = [
       },
     ],
     relatedPosts: [
+      "serdivan-kafe-restoran-instagram-reklami",
       "instagram-reklam-fiyatlari",
       "sosyal-medya-yonetimi-fiyatlari",
       "serdivan-reklam-ajansi-nasil-secilir",

@@ -21,24 +21,21 @@ Plus Dijital'in Serdivan'a odaklanan yerel marka sitesi. Next.js 16 (App Router)
 - Blog yazıları: `content/blog-a.ts`, `content/blog-b.ts`, `content/blog-c.ts`
 - Telefon/WhatsApp girilirse (`site.business`) sitede, schema'da ve `llms.txt`'de otomatik görünür.
 
-## İlk yayın (Cloudflare)
+## Yayın ve büyüme dokümanları
 
-1. Cloudflare'de Turnstile widget'ı oluştur (domain: serdivanreklamajansi.com). Site key'i `wrangler.jsonc` içindeki `NEXT_PUBLIC_TURNSTILE_SITE_KEY` alanına yaz.
-2. Resend hesabında `serdivanreklamajansi.com` domainini doğrula (SPF/DKIM DNS kayıtları) ve API key al.
-3. Gizli değerleri yükle:
-   ```bash
-   npx wrangler login
-   npx wrangler secret put RESEND_API_KEY
-   npx wrangler secret put TURNSTILE_SECRET_KEY
-   ```
-4. Yayınla: `npm run deploy`
-5. Cloudflare panelinde Worker'a custom domain ekle: `serdivanreklamajansi.com` ve `www.serdivanreklamajansi.com`. `www` için Redirect Rule: `https://serdivanreklamajansi.com/${1}` (301).
-6. `serdivandijital.com` domainini Cloudflare'e alıp Redirect Rule ile tüm yolları `https://serdivanreklamajansi.com/${1}` adresine 301 yönlendir.
-7. Cloudflare > Speed: **Rocket Loader kapalı**, **Email Obfuscation kapalı**, Early Hints açık, Brotli açık, HTTP/3 açık.
-8. Cloudflare > Bots: **AI crawler engelleme kapalı** (GEO için yapay zeka botları siteyi okuyabilmeli). Managed robots.txt kapalı; site kendi `robots.txt`'sini üretir.
-9. Google Search Console ve Bing Webmaster'a domaini ekle, `https://serdivanreklamajansi.com/sitemap.xml` gönder. `GOOGLE_SITE_VERIFICATION` değerini `wrangler.jsonc` vars'a ekle.
+Adım adım yapılacaklar `docs/` klasöründe:
 
-Yerel önizleme için `.dev.vars.example` dosyasını `.dev.vars` olarak kopyalayıp doldur.
+| Dosya | İçerik |
+|---|---|
+| `docs/01-yayin-kontrol-listesi.md` | Alan adı yenileme, DNS'i Cloudflare'e taşıma, yayın, form anahtarları, ölçüm, Search Console/Bing |
+| `docs/02-plusdijital-baglantilari.md` | plusdijital.com'a eklenecek hazır bağlantı metinleri |
+| `docs/03-dizin-kayitlari.md` | Armut, Yandex, Bing Places vb. için hazır kayıt metinleri |
+| `docs/04-vaka-calismasi-ve-ekip.md` | Vaka çalışması ve ekip bölümünü doldurma |
+| `docs/05-google-ads-kampanya-plani.md` | Anahtar kelimeler, negatifler, reklam metinleri, bütçe |
+| `docs/06-geo-takip.md` | Yapay zeka aramalarında aylık görünürlük takibi |
+| `docs/07-veri-yazisi-plani.md` | Sektörel tıklama maliyeti veri yazısı planı |
+
+Yerel önizleme için `.dev.vars.example` dosyasını `.dev.vars` olarak kopyalayıp doldurun.
 
 ## Form akışı
 

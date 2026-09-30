@@ -31,6 +31,10 @@ export default function ContactForm({ form }: { form: ContactFormContent }) {
       });
       if (!response.ok) throw new Error(String(response.status));
       setStatus("success");
+      // Cloudflare Zaraz etkinse (Google Ads / GA4 dönüşümü) olayı gönder; yoksa hiçbir şey yapmaz.
+      (window as unknown as { zaraz?: { track: (e: string, p?: object) => void } }).zaraz?.track("generate_lead", {
+        service: String(payload.service ?? ""),
+      });
     } catch {
       setStatus("error");
     }

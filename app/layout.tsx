@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
+import ContactDock from "@/components/ContactDock";
 import JsonLd from "@/components/JsonLd";
 import { getCmsData } from "@/lib/cms";
 import { graph, organizationSchema, websiteSchema } from "@/lib/schema";
@@ -16,6 +17,8 @@ const manrope = Manrope({
 });
 
 const cms = getCmsData();
+// Cloudflare Web Analytics: çerezsiz, ~1 KB. Token Cloudflare > Analytics > Web Analytics'ten alınır.
+const cfBeaconToken = process.env.NEXT_PUBLIC_CF_BEACON_TOKEN;
 
 export const metadata: Metadata = buildRootMetadata(cms.site);
 
@@ -32,7 +35,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="tr" className={manrope.variable}>
-      <body className="antialiased">
+      <body className="pb-[4.75rem] antialiased md:pb-0">
         <JsonLd data={graph(organizationSchema(cms.site), websiteSchema(cms.site))} />
         <a
           href="#icerik"
@@ -41,6 +44,14 @@ export default function RootLayout({
           İçeriğe atla
         </a>
         {children}
+        <ContactDock whatsapp={cms.site.business?.whatsapp} />
+        {cfBeaconToken ? (
+          <script
+            defer
+            src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon={JSON.stringify({ token: cfBeaconToken })}
+          />
+        ) : null}
       </body>
     </html>
   );

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import CaseStudies from "@/components/CaseStudies";
 import CTA from "@/components/CTA";
 import Faq from "@/components/Faq";
 import Footer from "@/components/Footer";
@@ -38,6 +39,7 @@ export default function Home() {
         <LocalWhy content={home.local} />
         <Process content={home.process} />
         <Sectors content={home.sectors} />
+        <CaseStudies content={home.caseStudies} />
         <Faq eyebrow={home.faq.eyebrow} title={home.faq.title} items={home.faq.items} />
         <TrustBand content={home.trust} />
         <CTA content={home.cta} />
