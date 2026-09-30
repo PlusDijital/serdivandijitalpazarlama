@@ -23,12 +23,22 @@ export type IconName =
   | "check"
   | "clock"
   | "send"
-  | "check-circle";
+  | "check-circle"
+  | "coffee"
+  | "stethoscope"
+  | "home"
+  | "graduation-cap"
+  | "wrench"
+  | "shield-check"
+  | "map"
+  | "file-text";
 
 export type LinkItem = {
   label: string;
   href: string;
 };
+
+export type Faq = { question: string; answer: string };
 
 export type SeoSettings = {
   title: string;
@@ -54,6 +64,27 @@ export type SiteSettings = {
     openGraphDescription: string;
     twitterTitle: string;
     twitterDescription: string;
+  };
+  /** Üst marka; schema'da parentOrganization olarak ve footer'da gösterilir. */
+  parentBrand: {
+    name: string;
+    url: string;
+    description: string;
+  };
+  /**
+   * Yerel SEO (NAP) bilgisi. Boş bırakılan alanlar sitede ve schema'da gösterilmez.
+   * Açık adres yoksa hizmet bölgesi işletmesi olarak işaretlenir (Google kurallarına uygun).
+   */
+  business?: {
+    phone?: string;
+    whatsapp?: string;
+    email?: string;
+    streetAddress?: string;
+    postalCode?: string;
+    areaServed?: string[];
+    googleBusinessProfileUrl?: string;
+    sameAs?: string[];
+    foundingDate?: string;
   };
 };
 
@@ -92,82 +123,46 @@ export type FooterContent = {
   legalLinks: LinkItem[];
 };
 
-export type HomeHeroMetric = {
-  value: string;
-  label: string;
-};
-
 export type HomeHeroContent = {
   eyebrow: string;
   title: string;
-  titleHighlight: string;
+  /** Başlıkta vurgulanacak kısım (başlığın içinde geçmeli). */
+  titleHighlight?: string;
   description: string;
   primaryCta: LinkItem;
   secondaryCta: LinkItem;
-  metrics: HomeHeroMetric[];
-  ratingBadge: string;
-  trendBadge: string;
-  panelEyebrow: string;
-  panelTitle: string;
-  panelStatus: string;
-  goalLabel: string;
-  goalValue: string;
-  goalProgress: number;
-  goalProgressText: string;
-  focusLabel: string;
-  focusValue: string;
-  conversionLabel: string;
-  conversionValue: string;
-  activeServices: string[];
-};
-
-export type HomePartnersContent = {
-  eyebrow: string;
-  partners: string[];
-};
-
-export type ResultStat = {
-  value: string;
-  unit: string;
-  label: string;
-  sub: string;
-  wide: boolean;
-};
-
-export type HomeResultsContent = {
-  eyebrow: string;
-  title: string;
-  titleHighlight: string;
-  description: string;
-  stats: ResultStat[];
-  chartBars: number[];
+  /** Başlığın altındaki güven satırları. */
+  trustPoints: { icon: IconName; text: string }[];
 };
 
 export type ServiceCard = {
   icon: IconName;
-  tag: string;
-  num: string;
+  /** Varsa ikon yerine platform logosu gösterilir. */
+  brand?: import("@/lib/brand-icons").BrandIconKey;
   title: string;
   description: string;
-  span: string;
   href: string;
-  footerText: string;
 };
 
 export type HomeServicesContent = {
   eyebrow: string;
   title: string;
-  titleHighlight: string;
   description: string;
   cards: ServiceCard[];
 };
 
+export type HomeLocalContent = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  points: { icon: IconName; title: string; description: string }[];
+  areas: string[];
+};
+
 export type ProcessStep = {
-  num: string;
   icon: IconName;
   title: string;
   description: string;
-  detail: string;
 };
 
 export type HomeProcessContent = {
@@ -177,30 +172,52 @@ export type HomeProcessContent = {
   steps: ProcessStep[];
 };
 
-export type Testimonial = {
-  quote: string;
-  name: string;
-  role: string;
-  company: string;
-  avatar: string;
-};
-
-export type FeaturedTestimonial = Testimonial & {
-  metric: string;
-  metricLabel: string;
-};
-
-export type HomeTestimonialsContent = {
+export type HomeSectorsContent = {
   eyebrow: string;
   title: string;
-  featured: FeaturedTestimonial;
-  items: Testimonial[];
+  description: string;
+  items: { icon: IconName; title: string; description: string }[];
+};
+
+export type HomeTrustContent = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  points: string[];
+  cta: LinkItem;
+};
+
+export type CaseStudy = {
+  client: string;
+  sector: string;
+  area: string;
+  challenge: string;
+  work: string;
+  result: string;
+  quote?: string;
+  quoteAuthor?: string;
+};
+
+export type HomeCaseStudiesContent = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  /** Yalnızca gerçek ve müşteri izni alınmış örnekler; boşsa bölüm gizlenir. */
+  items: CaseStudy[];
+};
+
+export type TeamMember = {
+  name: string;
+  role: string;
+  bio: string;
+  /** /public altındaki fotoğraf yolu (ör. /ekip/ad-soyad.webp), 400x400 önerilir. */
+  photo?: string;
+  linkedin?: string;
 };
 
 export type HomeCtaContent = {
   eyebrow: string;
   title: string;
-  titleHighlight: string;
   description: string;
   trustChips: string[];
   primaryCta: LinkItem;
@@ -209,21 +226,16 @@ export type HomeCtaContent = {
 
 export type HomeContent = {
   seo: SeoSettings;
-  structuredData: {
-    name: string;
-    description: string;
-    areaServed: string[];
-    addressLocality: string;
-    addressRegion: string;
-    addressCountry: string;
-    serviceType: string[];
-  };
   hero: HomeHeroContent;
-  partners: HomePartnersContent;
-  results: HomeResultsContent;
+  /** 40-60 kelimelik doğrudan cevap; öne çıkan snippet ve yapay zeka aramaları için. */
+  summary: string;
   services: HomeServicesContent;
+  local: HomeLocalContent;
   process: HomeProcessContent;
-  testimonials: HomeTestimonialsContent;
+  sectors: HomeSectorsContent;
+  faq: { eyebrow: string; title: string; items: Faq[] };
+  caseStudies: HomeCaseStudiesContent;
+  trust: HomeTrustContent;
   cta: HomeCtaContent;
 };
 
@@ -233,49 +245,28 @@ export type AboutValue = {
   description: string;
 };
 
-export type TeamMember = {
-  name: string;
-  role: string;
-  description: string;
-  avatar: string;
-};
-
 export type AboutContent = {
   seo: SeoSettings;
   hero: {
     eyebrow: string;
     title: string;
-    titleHighlight: string;
     description: string;
   };
-  stats: HomeHeroMetric[];
-  mission: {
-    title: string;
-    icon: IconName;
-    body: string;
-  };
-  vision: {
-    title: string;
-    icon: IconName;
-    body: string;
-  };
-  values: {
+  summary: string;
+  mission: { title: string; icon: IconName; body: string };
+  vision: { title: string; icon: IconName; body: string };
+  values: { eyebrow: string; title: string; items: AboutValue[] };
+  parentBrand: {
     eyebrow: string;
     title: string;
-    titleHighlight: string;
-    items: AboutValue[];
+    body: string;
+    /** Metnin sonuna eklenen, bağlamsal bağlantı içeren cümle: before + link + after */
+    inlineLink?: { before: string; link: LinkItem; after: string };
+    cta: LinkItem;
   };
-  team: {
-    eyebrow: string;
-    title: string;
-    titleHighlight: string;
-    items: TeamMember[];
-  };
-  cta: {
-    title: string;
-    description: string;
-    button: LinkItem;
-  };
+  /** Gerçek ekip üyeleri; boşsa bölüm gizlenir. */
+  team: { eyebrow: string; title: string; items: TeamMember[] };
+  cta: { title: string; description: string; button: LinkItem };
 };
 
 export type ServicesIndexContent = {
@@ -283,18 +274,19 @@ export type ServicesIndexContent = {
   hero: {
     eyebrow: string;
     title: string;
-    titleHighlight: string;
     description: string;
-    keywordCluster: string[];
   };
+  summary: string;
 };
 
 export type ContactFormContent = {
   title: string;
   successTitle: string;
   successDescription: string;
+  errorMessage: string;
   submitLabel: string;
   loadingLabel: string;
+  consentLabel: string;
   fields: {
     nameLabel: string;
     namePlaceholder: string;
@@ -304,6 +296,8 @@ export type ContactFormContent = {
     phonePlaceholder: string;
     companyLabel: string;
     companyPlaceholder: string;
+    areaLabel: string;
+    areaPlaceholder: string;
     serviceLabel: string;
     servicePlaceholder: string;
     messageLabel: string;
@@ -317,16 +311,13 @@ export type ContactContent = {
   hero: {
     eyebrow: string;
     title: string;
-    titleHighlight: string;
     description: string;
   };
   infoTitle: string;
   infoDescription: string;
   contactItems: ContactItem[];
-  trustNote: {
-    eyebrow: string;
-    body: string;
-  };
+  trustNote: { eyebrow: string; body: string };
+  steps: { title: string; description: string }[];
   form: ContactFormContent;
 };
 
@@ -345,8 +336,12 @@ export type ServiceLandingPage = {
   benefits: string[];
   deliverables: string[];
   process: { title: string; description: string }[];
-  faq: { question: string; answer: string }[];
+  faq: Faq[];
   relatedPosts: string[];
+  /** 40-60 kelimelik doğrudan cevap; AI aramaları (GEO) ve öne çıkan snippet için. */
+  summary?: string;
+  /** Uzun içerik bölümleri; paragraflar "\n\n" ile ayrılır. */
+  sections?: { heading: string; body: string }[];
 };
 
 export type BlogPost = {
@@ -362,7 +357,11 @@ export type BlogPost = {
   primaryKeyword: string;
   secondaryKeywords: string[];
   relatedServiceSlug: string;
+  /** Paragraflar "\n\n" ile ayrılır; "- " ile başlayan satırlar madde listesi olur. */
   sections: { heading: string; body: string }[];
+  /** 40-60 kelimelik "Kısaca" özeti; AI aramaları (GEO) ve öne çıkan snippet için. */
+  summary?: string;
+  faq?: Faq[];
   coverImage: string;
   publishedAt: string;
   updatedAt: string;
@@ -374,9 +373,7 @@ export type BlogIndexContent = {
   hero: {
     eyebrow: string;
     title: string;
-    titleHighlight: string;
     description: string;
-    topicClusters: string[];
   };
   featuredLabel: string;
 };

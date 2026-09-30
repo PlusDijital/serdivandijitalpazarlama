@@ -1,0 +1,19 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "serdivanreklamajansi",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-09-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  // Alan adı: Cloudflare'de proxied A/CNAME kayıtları üzerinden Worker rotası.
+  "routes": [
+    { "pattern": "serdivanreklamajansi.com/*", "zone_name": "serdivanreklamajansi.com" },
+    { "pattern": "www.serdivanreklamajansi.com/*", "zone_name": "serdivanreklamajansi.com" }
+  ],
+  "observability": {
+    "enabled": true
+  }
+}

@@ -1,229 +1,183 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Clock, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import Faq from "@/components/Faq";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import { getCmsData } from "@/lib/cms";
+import JsonLd from "@/components/JsonLd";
+import PageHero from "@/components/PageHero";
+import PostCover from "@/components/PostCover";
+import RichText from "@/components/RichText";
+import { getBlogPostBySlug, getCmsData, getServiceBySlug } from "@/lib/cms";
+import { breadcrumbSchema, faqSchema, graph, orgId } from "@/lib/schema";
+import { slugify } from "@/lib/slug";
 
-type Params = Promise<{
-  slug: string;
-}>;
+type Params = Promise<{ slug: string }>;
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Params;
-}): Promise<Metadata> {
+const cms = getCmsData();
+
+export function generateStaticParams() {
+  return cms.blogPosts.map((post) => ({ slug: post.slug }));
+}
+
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;
-  const cms = await getCmsData();
-  const post = cms.blogPosts.find((item) => item.slug === slug);
-
-  if (!post) {
-    return {
-      title: "Blog Yazısı Bulunamadı",
-    };
-  }
+  const post = getBlogPostBySlug(slug);
+  if (!post) return { title: "Blog Yazısı Bulunamadı" };
 
   return {
-    title: post.metaTitle,
+    title: { absolute: post.metaTitle },
     description: post.metaDescription,
-    keywords: [post.primaryKeyword, ...post.secondaryKeywords],
-    alternates: {
-      canonical: `/blog/${post.slug}`,
-    },
+    alternates: { canonical: `/blog/${post.slug}` },
     openGraph: {
       title: post.metaTitle,
       description: post.metaDescription,
       url: `/blog/${post.slug}`,
+      type: "article",
+      locale: "tr_TR",
+      publishedTime: post.publishedAt,
+      modifiedTime: post.updatedAt,
     },
   };
 }
 
-export default async function BlogPost({
-  params,
-}: {
-  params: Params;
-}) {
+export default async function BlogPostPage({ params }: { params: Params }) {
   const { slug } = await params;
-  const cms = await getCmsData();
-  const post = cms.blogPosts.find((item) => item.slug === slug);
+  const post = getBlogPostBySlug(slug);
+  if (!post) notFound();
 
-  if (!post) {
-    notFound();
-  }
-
-  const relatedService = cms.serviceLandingPages.find(
-    (service) => service.slug === post.relatedServiceSlug,
+  const relatedService = getServiceBySlug(post.relatedServiceSlug);
+  const pageUrl = `${cms.site.siteUrl}/blog/${post.slug}`;
+  const faq = post.faq ?? [];
+  const toc = post.sections.map((section) => ({ ...section, id: slugify(section.heading) }));
+  const structuredData = graph(
+    {
+      "@type": "BlogPosting",
+      "@id": `${pageUrl}#article`,
+      headline: post.title,
+      description: post.summary ?? post.metaDescription,
+      datePublished: post.publishedAt,
+      dateModified: post.updatedAt,
+      inLanguage: "tr-TR",
+      author: { "@id": orgId(cms.site) },
+      publisher: { "@id": orgId(cms.site) },
+      image: {
+        "@type": "ImageObject",
+        url: `${pageUrl}/opengraph-image`,
+        width: 1200,
+        height: 630,
+      },
+      mainEntityOfPage: pageUrl,
+      articleSection: post.category,
+      about: post.primaryKeyword,
+    },
+    breadcrumbSchema(cms.site, [
+      { name: "Blog", path: "/blog" },
+      { name: post.title, path: `/blog/${post.slug}` },
+    ]),
+    faq.length > 0 && faqSchema(faq),
   );
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.title,
-    description: post.metaDescription,
-    datePublished: post.publishedAt,
-    dateModified: post.updatedAt,
-    author: {
-      "@type": "Organization",
-      name: post.authorName,
-    },
-    publisher: {
-      "@type": "Organization",
-      name: cms.site.brandName,
-    },
-    image: post.coverImage ? [`${cms.site.siteUrl}${post.coverImage}`] : undefined,
-    mainEntityOfPage: `${cms.site.siteUrl}/blog/${post.slug}`,
-    keywords: [post.primaryKeyword, ...post.secondaryKeywords].join(", "),
-  };
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      <JsonLd data={structuredData} />
       <Header site={cms.site} header={cms.header} />
-      <main className="pt-20">
-        <section className="section-shell relative overflow-hidden px-4 py-16 md:py-20 border-b border-white/6">
-          <div
-            className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 w-[600px] h-[320px] opacity-10"
-            style={{
-              background:
-                "radial-gradient(ellipse at center, rgba(250,193,1,0.4) 0%, transparent 65%)",
-            }}
-          />
-          <div className="container mx-auto max-w-3xl relative">
-            <Link
-              href="/blog"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-white/40 hover:text-primary transition-colors duration-200 mb-8"
-            >
-              <ArrowLeft size={15} />
-              Blog&apos;a Dön
-            </Link>
+      <main id="icerik">
+        <PageHero
+          eyebrow={post.category}
+          title={post.title}
+          description={post.intro}
+          crumbs={[{ name: "Blog", path: "/blog" }, { name: post.title }]}
+          summary={post.summary}
+        >
+          <p className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm font-semibold text-muted">
+            <span>{post.authorName}</span>
+            <time dateTime={post.updatedAt}>{post.date}</time>
+            <span>{post.readTime} okuma</span>
+          </p>
+        </PageHero>
 
-            <div className="flex flex-wrap items-center gap-3 mb-6">
-              {post.category ? (
-                <span className="rounded-full border border-primary/22 bg-primary/8 px-3 py-1 text-xs font-bold text-primary">
-                  {post.category}
-                </span>
-              ) : null}
-              {post.date ? <span className="text-xs text-white/30">{post.date}</span> : null}
-              {post.readTime ? (
-                <span className="flex items-center gap-1 text-xs text-white/30">
-                  <Clock size={11} />
-                  {post.readTime} okuma
-                </span>
-              ) : null}
+        <article className="section">
+          <div className="container-x">
+            <div className="mx-auto mb-12 max-w-5xl overflow-hidden rounded-[var(--radius-card)] border border-line shadow-card">
+              <PostCover category={post.category} id={post.slug} />
             </div>
 
-            <h1
-              className="text-4xl font-black tracking-tight md:text-5xl leading-[0.97]"
-              style={{ fontFamily: "var(--font-display), sans-serif" }}
-            >
-              {post.title}
-            </h1>
+            <div className="mx-auto grid max-w-5xl gap-12 lg:grid-cols-[14rem_1fr]">
+              <nav aria-label="İçindekiler" className="toc hidden lg:block">
+                <div className="sticky top-28">
+                  <p className="text-xs font-bold uppercase tracking-[0.14em] text-muted">İçindekiler</p>
+                  <ol className="mt-4 space-y-2.5 border-l border-line pl-4">
+                    {toc.map((item) => (
+                      <li key={item.id}>
+                        <a href={`#${item.id}`} className="block text-sm font-semibold leading-5 text-ink-soft">
+                          {item.heading}
+                        </a>
+                      </li>
+                    ))}
+                    {faq.length > 0 ? (
+                      <li>
+                        <a href="#sss" className="block text-sm font-semibold leading-5 text-ink-soft">
+                          Sık sorulan sorular
+                        </a>
+                      </li>
+                    ) : null}
+                  </ol>
+                </div>
+              </nav>
 
-            {post.intro ? (
-              <p className="mt-6 text-lg leading-7 text-white/55">{post.intro}</p>
-            ) : null}
-          </div>
-        </section>
+            <div className="min-w-0 max-w-3xl space-y-12">
+              <details className="toc rounded-[var(--radius-card)] border border-line bg-surface p-5 lg:hidden">
+                <summary className="cursor-pointer text-sm font-bold text-ink">İçindekiler</summary>
+                <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm font-semibold text-ink-soft">
+                  {toc.map((item) => (
+                    <li key={item.id}>
+                      <a href={`#${item.id}`}>{item.heading}</a>
+                    </li>
+                  ))}
+                </ol>
+              </details>
 
-        <article className="px-4 py-16 md:py-20">
-          <div className="container mx-auto max-w-3xl">
-            {post.coverImage ? (
-              <img
-                src={post.coverImage}
-                alt={post.title}
-                className="rounded-3xl mb-12 w-full border border-primary/12 object-cover"
-                style={{ aspectRatio: "16/7" }}
-              />
-            ) : (
-              <div
-                className="rounded-3xl mb-12 flex items-center justify-center"
-                style={{
-                  aspectRatio: "16/7",
-                  background:
-                    "linear-gradient(135deg, rgba(250,193,1,0.12) 0%, rgba(16,16,16,0.9) 100%)",
-                  border: "1px solid rgba(250,193,1,0.12)",
-                }}
-              >
-                <span className="text-xs font-bold uppercase tracking-[0.2em] text-white/20">
-                  {post.category} · Serdivan Blog
-                </span>
-              </div>
-            )}
-
-            <div className="mb-10 flex flex-wrap gap-2">
-              {[post.primaryKeyword, ...post.secondaryKeywords].map((keyword) => (
-                <span
-                  key={keyword}
-                  className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white/60"
-                >
-                  {keyword}
-                </span>
-              ))}
-            </div>
-
-            <div className="space-y-10">
-              {post.sections.map((section, index) => (
-                <div key={`${section.heading}-${index}`}>
-                  <h2
-                    className="text-2xl font-black mb-4 text-white"
-                    style={{ fontFamily: "var(--font-display), sans-serif" }}
-                  >
+              {toc.map((section, index) => (
+                <section key={`${section.id}-${index}`} aria-labelledby={section.id} className="scroll-mt-28">
+                  <h2 id={section.id} className="mb-4 text-2xl font-extrabold leading-tight text-ink sm:text-3xl">
                     {section.heading}
                   </h2>
-                  <p className="text-base leading-8 text-white/60">{section.body}</p>
-                </div>
+                  <RichText text={section.body} />
+                </section>
               ))}
-            </div>
 
-            {relatedService ? (
-              <div className="mt-14 rounded-3xl border border-white/8 bg-white/4 p-8">
-                <span className="section-label">İlgili Hizmet</span>
-                <h2
-                  className="mt-5 text-3xl font-black"
-                  style={{ fontFamily: "var(--font-display), sans-serif" }}
-                >
-                  {relatedService.title}
-                </h2>
-                <p className="mt-4 text-sm leading-7 text-white/55">
-                  Bu yazıdaki stratejileri hizmete dönüştürmek isterseniz ilgili
-                  landing page üzerinden çalışma modelimizi daha detaylı inceleyebilirsiniz.
+              {faq.length > 0 ? <Faq title="Sık sorulan sorular" items={faq} compact /> : null}
+
+              {relatedService ? (
+                <div className="card p-7">
+                  <span className="eyebrow">İlgili hizmet</span>
+                  <h2 className="mt-3 text-2xl font-extrabold text-ink">{relatedService.title}</h2>
+                  <p className="mt-3 text-[0.9375rem] leading-7 text-muted">
+                    {relatedService.summary ?? relatedService.metaDescription}
+                  </p>
+                  <Link
+                    href={`/hizmetler/${relatedService.slug}`}
+                    className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-accent"
+                  >
+                    Hizmet sayfasını aç
+                    <ArrowRight size={15} aria-hidden />
+                  </Link>
+                </div>
+              ) : null}
+
+              <div className="rounded-[var(--radius-card)] bg-ink p-8 text-center text-white">
+                <h2 className="text-2xl font-extrabold">Bunu işletmenize uygulamak ister misiniz?</h2>
+                <p className="mx-auto mt-3 max-w-md text-[0.9375rem] leading-7 text-white/80">
+                  {"Ücretsiz analizle mevcut durumunuzu inceleyip WhatsApp'tan hızlıca dönelim."}
                 </p>
-                <Link
-                  href={`/hizmetler/${relatedService.slug}`}
-                  className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary"
-                >
-                  Hizmet sayfasını aç
-                  <ArrowRight size={14} />
+                <Link href="/iletisim" className="btn btn-accent mt-6">
+                  Ücretsiz Teklif Al
+                  <ArrowRight size={16} aria-hidden />
                 </Link>
               </div>
-            ) : null}
-
-            <div className="my-14 h-px bg-white/7" />
-
-            <div
-              className="rounded-3xl p-8 md:p-10 text-center noise"
-              style={{
-                background: "linear-gradient(145deg, rgba(250,193,1,0.09), rgba(0,0,0,0.6))",
-                border: "1px solid rgba(250,193,1,0.2)",
-              }}
-            >
-              <h3
-                className="text-2xl font-black mb-3"
-                style={{ fontFamily: "var(--font-display), sans-serif" }}
-              >
-                Bu stratejiyi markanıza uygulamak ister misiniz?
-              </h3>
-              <p className="text-sm text-white/50 mb-6 max-w-md mx-auto">
-                Ücretsiz ilk görüşmede projenizi ve hedeflerinizi konuşalım.
-              </p>
-              <Link href="/iletisim" className="btn-primary">
-                Bizimle İletişime Geçin
-                <ArrowRight size={15} />
-              </Link>
+            </div>
             </div>
           </div>
         </article>

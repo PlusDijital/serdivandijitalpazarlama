@@ -1,206 +1,161 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import HighlightedText from "@/components/HighlightedText";
+import JsonLd from "@/components/JsonLd";
+import PageHero from "@/components/PageHero";
+import SectionHeading from "@/components/SectionHeading";
 import { getCmsData } from "@/lib/cms";
 import { ContentIcon } from "@/lib/icon-map";
+import { breadcrumbSchema, graph, orgId } from "@/lib/schema";
 import { buildPageMetadata } from "@/lib/seo";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const cms = await getCmsData();
-  return buildPageMetadata(cms.site, cms.about.seo);
-}
+const cms = getCmsData();
 
-export default async function About() {
-  const cms = await getCmsData();
+export const metadata: Metadata = buildPageMetadata(cms.site, cms.about.seo);
+
+export default function About() {
   const about = cms.about;
 
   return (
     <>
+      <JsonLd
+        data={graph(
+          breadcrumbSchema(cms.site, [{ name: "Hakkımızda", path: "/hakkimizda" }]),
+          ...about.team.items.map((member) => ({
+            "@type": "Person",
+            name: member.name,
+            jobTitle: member.role,
+            description: member.bio,
+            worksFor: { "@id": orgId(cms.site) },
+            ...(member.photo ? { image: `${cms.site.siteUrl}${member.photo}` } : {}),
+            ...(member.linkedin ? { sameAs: [member.linkedin] } : {}),
+          })),
+        )}
+      />
       <Header site={cms.site} header={cms.header} />
-      <main className="pt-20">
-        <section className="section-shell relative overflow-hidden px-4 py-20 md:py-28">
-          <div
-            className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 w-[700px] h-[400px] opacity-15"
-            style={{
-              background:
-                "radial-gradient(ellipse at center, rgba(250,193,1,0.4) 0%, transparent 65%)",
-            }}
-          />
-          <div className="container mx-auto max-w-4xl text-center relative">
-            <span className="section-label">{about.hero.eyebrow}</span>
-            <h1
-              className="mt-6 text-5xl font-black tracking-tight md:text-6xl xl:text-7xl leading-[0.96]"
-              style={{ fontFamily: "var(--font-display), sans-serif" }}
-            >
-              <HighlightedText
-                text={about.hero.title}
-                highlight={about.hero.titleHighlight}
-              />
-            </h1>
-            <p className="mt-6 text-lg text-white/50 max-w-2xl mx-auto leading-7">
-              {about.hero.description}
-            </p>
-          </div>
-        </section>
+      <main id="icerik">
+        <PageHero
+          eyebrow={about.hero.eyebrow}
+          title={about.hero.title}
+          description={about.hero.description}
+          crumbs={[{ name: "Hakkımızda" }]}
+          summary={about.summary}
+        />
 
-        <section className="px-4 pb-20">
-          <div className="container mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {about.stats.map((item) => (
-                <div
-                  key={item.label}
-                  className="glass-card rounded-3xl p-8 text-center hover:border-primary/30 transition-all duration-300"
-                >
-                  <div
-                    className="text-5xl font-black text-gradient-gold"
-                    style={{ fontFamily: "var(--font-display), sans-serif" }}
-                  >
-                    {item.value}
-                  </div>
-                  <div className="mt-2 text-sm text-white/40">{item.label}</div>
+        <section className="section">
+          <div className="container-x grid gap-6 md:grid-cols-2">
+            {[about.mission, about.vision].map((block) => (
+              <div key={block.title} className="card p-7 md:p-8">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent-soft text-accent">
+                    <ContentIcon name={block.icon} size={18} />
+                  </span>
+                  <h2 className="text-xl font-extrabold text-ink">{block.title}</h2>
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="px-4 py-20 border-t border-white/6">
-          <div className="container mx-auto">
-            <div className="grid gap-6 md:grid-cols-2">
-              <div className="glass-card rounded-3xl p-8 md:p-10">
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="h-8 w-8 rounded-full bg-primary/15 flex items-center justify-center">
-                    <ContentIcon
-                      name={about.mission.icon}
-                      size={16}
-                      className="text-primary"
-                    />
-                  </div>
-                  <h2
-                    className="text-xl font-bold text-primary"
-                    style={{ fontFamily: "var(--font-display), sans-serif" }}
-                  >
-                    {about.mission.title}
-                  </h2>
-                </div>
-                <p className="text-base leading-7 text-white/55">{about.mission.body}</p>
+                <p className="mt-5 text-[1.0625rem] leading-8 text-ink-soft">{block.body}</p>
               </div>
-              <div className="glass-card rounded-3xl p-8 md:p-10">
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="h-8 w-8 rounded-full bg-primary/15 flex items-center justify-center">
-                    <ContentIcon
-                      name={about.vision.icon}
-                      size={16}
-                      className="text-primary"
-                    />
-                  </div>
-                  <h2
-                    className="text-xl font-bold text-primary"
-                    style={{ fontFamily: "var(--font-display), sans-serif" }}
-                  >
-                    {about.vision.title}
-                  </h2>
-                </div>
-                <p className="text-base leading-7 text-white/55">{about.vision.body}</p>
-              </div>
-            </div>
+            ))}
           </div>
         </section>
 
-        <section className="px-4 py-20 border-t border-white/6">
-          <div className="container mx-auto">
-            <div className="text-center mb-12">
-              <span className="section-label">{about.values.eyebrow}</span>
-              <h2
-                className="mt-5 text-4xl font-black tracking-tight"
-                style={{ fontFamily: "var(--font-display), sans-serif" }}
-              >
-                <HighlightedText
-                  text={about.values.title}
-                  highlight={about.values.titleHighlight}
-                />
-              </h2>
-            </div>
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <section className="border-y border-line bg-surface py-16 md:py-20">
+          <div className="container-x">
+            <SectionHeading eyebrow={about.values.eyebrow} title={about.values.title} />
+            <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {about.values.items.map((value) => (
-                <div
-                  key={value.title}
-                  className="glass-card rounded-3xl p-7 hover:border-primary/30 transition-all duration-300 hover:-translate-y-1"
-                >
-                  <div className="h-10 w-10 rounded-xl border border-primary/20 bg-primary/8 flex items-center justify-center mb-5">
-                    <ContentIcon name={value.icon} size={18} className="text-primary" />
-                  </div>
-                  <h3
-                    className="text-lg font-bold mb-3"
-                    style={{ fontFamily: "var(--font-display), sans-serif" }}
-                  >
-                    {value.title}
-                  </h3>
-                  <p className="text-sm leading-6.5 text-white/45">{value.description}</p>
-                </div>
+                <li key={value.title} className="reveal rounded-[var(--radius-card)] border border-line bg-bg p-6">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-surface text-accent shadow-card">
+                    <ContentIcon name={value.icon} size={18} />
+                  </span>
+                  <h3 className="mt-4 text-lg font-bold text-ink">{value.title}</h3>
+                  <p className="mt-2 text-[0.9375rem] leading-7 text-muted">{value.description}</p>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </section>
 
-        <section className="px-4 py-20 border-t border-white/6">
-          <div className="container mx-auto">
-            <div className="text-center mb-12">
-              <span className="section-label">{about.team.eyebrow}</span>
-              <h2
-                className="mt-5 text-4xl font-black tracking-tight"
-                style={{ fontFamily: "var(--font-display), sans-serif" }}
+        <section className="section">
+          <div className="container-x">
+            <div className="rounded-[var(--radius-card)] bg-ink p-8 text-white md:p-12">
+              <span className="eyebrow text-accent-soft">{about.parentBrand.eyebrow}</span>
+              <h2 className="mt-4 text-3xl font-extrabold leading-tight">{about.parentBrand.title}</h2>
+              <p className="mt-4 max-w-3xl text-lg leading-8 text-white/80">{about.parentBrand.body}</p>
+              {about.parentBrand.inlineLink ? (
+                <p className="mt-3 max-w-3xl text-lg leading-8 text-white/80">
+                  {about.parentBrand.inlineLink.before}
+                  <a
+                    href={about.parentBrand.inlineLink.link.href}
+                    className="font-bold text-accent-soft underline underline-offset-4 hover:text-white"
+                  >
+                    {about.parentBrand.inlineLink.link.label}
+                  </a>
+                  {about.parentBrand.inlineLink.after}
+                </p>
+              ) : null}
+              <a
+                href={about.parentBrand.cta.href}
+                rel="noopener"
+                className="btn mt-6 border border-white/30 text-white hover:bg-white/10"
               >
-                <HighlightedText
-                  text={about.team.title}
-                  highlight={about.team.titleHighlight}
-                />
-              </h2>
-            </div>
-            <div className="grid gap-5 md:grid-cols-3">
-              {about.team.items.map((member) => (
-                <div
-                  key={member.name}
-                  className="glass-card rounded-3xl p-8 text-center hover:border-primary/30 transition-all duration-300 hover:-translate-y-1 group"
-                >
-                  <img
-                    src={member.avatar}
-                    alt={member.name}
-                    className="h-20 w-20 rounded-full border-2 border-primary/25 mx-auto mb-5 object-cover group-hover:border-primary/50 transition-colors duration-300"
-                  />
-                  <h3
-                    className="text-xl font-bold"
-                    style={{ fontFamily: "var(--font-display), sans-serif" }}
-                  >
-                    {member.name}
-                  </h3>
-                  <p className="text-primary font-semibold text-sm mt-1 mb-3">
-                    {member.role}
-                  </p>
-                  <p className="text-sm leading-6 text-white/45">{member.description}</p>
-                </div>
-              ))}
+                {about.parentBrand.cta.label}
+                <ArrowUpRight size={16} aria-hidden />
+              </a>
             </div>
           </div>
         </section>
 
-        <section className="px-4 py-16 border-t border-white/6">
-          <div className="container mx-auto text-center">
-            <h2
-              className="text-3xl font-black mb-4"
-              style={{ fontFamily: "var(--font-display), sans-serif" }}
-            >
-              {about.cta.title}
-            </h2>
-            <p className="text-white/45 mb-8 max-w-lg mx-auto">
-              {about.cta.description}
-            </p>
-            <Link href={about.cta.button.href} className="btn-primary">
+
+        {about.team.items.length > 0 ? (
+          <section className="border-t border-line bg-surface py-16 md:py-20">
+            <div className="container-x">
+              <SectionHeading eyebrow={about.team.eyebrow} title={about.team.title} />
+              <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {about.team.items.map((member) => (
+                  <li key={member.name} className="card flex gap-4 p-6">
+                    {member.photo ? (
+                      // Küçük, tembel yüklenen sabit boyutlu fotoğraf; next/image Workers'ta optimize etmiyor.
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={member.photo}
+                        alt={member.name}
+                        width={72}
+                        height={72}
+                        loading="lazy"
+                        decoding="async"
+                        className="h-[72px] w-[72px] shrink-0 rounded-full object-cover"
+                      />
+                    ) : (
+                      <span className="flex h-[72px] w-[72px] shrink-0 items-center justify-center rounded-full bg-accent-soft text-2xl font-extrabold text-accent">
+                        {member.name.charAt(0)}
+                      </span>
+                    )}
+                    <div>
+                      <h3 className="text-lg font-bold text-ink">{member.name}</h3>
+                      <p className="text-sm font-semibold text-accent">{member.role}</p>
+                      <p className="mt-2 text-sm leading-6 text-muted">{member.bio}</p>
+                      {member.linkedin ? (
+                        <a href={member.linkedin} rel="noopener" className="mt-2 inline-block text-sm font-bold text-ink hover:text-accent">
+                          LinkedIn
+                        </a>
+                      ) : null}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        ) : null}
+
+        <section className="border-t border-line bg-surface py-16">
+          <div className="container-x text-center">
+            <h2 className="text-3xl font-extrabold text-ink">{about.cta.title}</h2>
+            <p className="mx-auto mt-3 max-w-lg text-lg leading-8 text-ink-soft">{about.cta.description}</p>
+            <Link href={about.cta.button.href} className="btn btn-primary mt-7">
               {about.cta.button.label}
-              <ArrowRight size={16} />
+              <ArrowRight size={16} aria-hidden />
             </Link>
           </div>
         </section>

@@ -1,351 +1,221 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, Check, MapPin } from "lucide-react";
+import { ArrowRight, Check, MapPin } from "lucide-react";
+import Faq from "@/components/Faq";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import { getCmsData } from "@/lib/cms";
+import JsonLd from "@/components/JsonLd";
+import PageHero from "@/components/PageHero";
+import PostCard from "@/components/PostCard";
+import RichText from "@/components/RichText";
+import SectionHeading from "@/components/SectionHeading";
+import { getBlogPostsBySlugs, getCmsData, getServiceBySlug } from "@/lib/cms";
+import { breadcrumbSchema, faqSchema, graph, orgId } from "@/lib/schema";
 
-type Params = Promise<{
-  slug: string;
-}>;
+type Params = Promise<{ slug: string }>;
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Params;
-}): Promise<Metadata> {
+const cms = getCmsData();
+
+export function generateStaticParams() {
+  return cms.serviceLandingPages.map((service) => ({ slug: service.slug }));
+}
+
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;
-  const cms = await getCmsData();
-  const service = cms.serviceLandingPages.find((item) => item.slug === slug);
-
-  if (!service) {
-    return {
-      title: "Hizmet Bulunamadı",
-    };
-  }
+  const service = getServiceBySlug(slug);
+  if (!service) return { title: "Hizmet Bulunamadı" };
 
   return {
-    title: service.metaTitle,
+    title: { absolute: service.metaTitle },
     description: service.metaDescription,
-    keywords: [service.primaryKeyword, ...service.secondaryKeywords],
-    alternates: {
-      canonical: `/hizmetler/${service.slug}`,
-    },
+    alternates: { canonical: `/hizmetler/${service.slug}` },
     openGraph: {
       title: service.metaTitle,
       description: service.metaDescription,
       url: `/hizmetler/${service.slug}`,
+      type: "website",
+      locale: "tr_TR",
     },
   };
 }
 
-export default async function ServiceDetailPage({
-  params,
-}: {
-  params: Params;
-}) {
+export default async function ServiceDetailPage({ params }: { params: Params }) {
   const { slug } = await params;
-  const cms = await getCmsData();
-  const service = cms.serviceLandingPages.find((item) => item.slug === slug);
+  const service = getServiceBySlug(slug);
+  if (!service) notFound();
 
-  if (!service) {
-    notFound();
-  }
-
-  const relatedPosts = service.relatedPosts
-    .map((relatedSlug) => cms.blogPosts.find((post) => post.slug === relatedSlug))
-    .filter(Boolean);
-
-  const structuredData = [
+  const relatedPosts = getBlogPostsBySlugs(service.relatedPosts);
+  const otherServices = cms.serviceLandingPages.filter((item) => item.slug !== service.slug);
+  const pageUrl = `${cms.site.siteUrl}/hizmetler/${service.slug}`;
+  const structuredData = graph(
     {
-      "@context": "https://schema.org",
       "@type": "Service",
+      "@id": `${pageUrl}#service`,
       name: service.title,
-      description: service.metaDescription,
-      serviceType: service.title,
-      areaServed: service.localFocus,
-      url: `${cms.site.siteUrl}/hizmetler/${service.slug}`,
-      provider: {
-        "@type": "ProfessionalService",
-        name: cms.site.brandName,
-        address: {
-          "@type": "PostalAddress",
-          addressLocality: "Serdivan",
-          addressRegion: "Sakarya",
-          addressCountry: "TR",
-        },
+      description: service.summary ?? service.metaDescription,
+      serviceType: service.primaryKeyword,
+      url: pageUrl,
+      provider: { "@id": orgId(cms.site) },
+      areaServed: service.localFocus.map((name) => ({ "@type": "City", name })),
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: `${service.title} kapsamı`,
+        itemListElement: service.deliverables.map((item) => ({
+          "@type": "Offer",
+          itemOffered: { "@type": "Service", name: item },
+        })),
       },
     },
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      mainEntity: service.faq.map((item) => ({
-        "@type": "Question",
-        name: item.question,
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: item.answer,
-        },
-      })),
-    },
-  ];
+    breadcrumbSchema(cms.site, [
+      { name: "Hizmetler", path: "/hizmetler" },
+      { name: service.title, path: `/hizmetler/${service.slug}` },
+    ]),
+    service.faq.length > 0 && faqSchema(service.faq),
+  );
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      <JsonLd data={structuredData} />
       <Header site={cms.site} header={cms.header} />
-      <main className="pt-20">
-        <section className="section-shell relative overflow-hidden border-b border-white/6 px-4 py-16 md:py-20">
-          <div
-            className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 h-[320px] w-[660px] opacity-10"
-            style={{
-              background:
-                "radial-gradient(ellipse at center, rgba(250,193,1,0.35) 0%, transparent 65%)",
-            }}
-          />
-
-          <div className="container mx-auto max-w-5xl relative">
-            <Link
-              href="/hizmetler"
-              className="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-white/40 transition-colors duration-200 hover:text-primary"
-            >
-              <ArrowLeft size={15} />
-              Hizmetlere Dön
+      <main id="icerik">
+        <PageHero
+          eyebrow={service.eyebrow}
+          title={service.heroTitle}
+          description={service.heroDescription}
+          crumbs={[{ name: "Hizmetler", path: "/hizmetler" }, { name: service.title }]}
+          summary={service.summary}
+        >
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+            <Link href="/iletisim" className="btn btn-primary">
+              Ücretsiz Teklif Al
+              <ArrowRight size={16} aria-hidden />
             </Link>
-
-            <span className="section-label">{service.eyebrow}</span>
-            <h1
-              className="mt-6 max-w-4xl text-4xl font-black tracking-tight md:text-6xl leading-[0.97]"
-              style={{ fontFamily: "var(--font-display), sans-serif" }}
-            >
-              {service.heroTitle}
-            </h1>
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-white/55">
-              {service.heroDescription}
-            </p>
-
-            <div className="mt-8 flex flex-wrap gap-2">
-              {[service.primaryKeyword, ...service.secondaryKeywords].map((keyword) => (
-                <span
-                  key={keyword}
-                  className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white/65"
-                >
-                  {keyword}
-                </span>
-              ))}
-            </div>
+            <span className="inline-flex items-center gap-2 text-sm font-semibold text-muted">
+              <MapPin size={15} aria-hidden className="text-accent" />
+              {service.localFocus.join(" · ")}
+            </span>
           </div>
-        </section>
+        </PageHero>
 
-        <section className="px-4 py-16 md:py-20">
-          <div className="container mx-auto grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-            <div className="glass-card rounded-3xl p-8 md:p-10">
-              <h2
-                className="text-3xl font-black"
-                style={{ fontFamily: "var(--font-display), sans-serif" }}
-              >
-                Neden bu hizmet sayfası önemli?
-              </h2>
-              <p className="mt-5 text-base leading-8 text-white/55">
-                Bu landing page yalnızca genel bilgi vermek için değil,{" "}
-                <strong className="text-white">{service.primaryKeyword}</strong> ve
-                ilişkili lokal aramalarda kullanıcı niyeti ile sayfa içeriğini daha
-                net eşleştirmek için hazırlandı. Böylece hem organik görünürlük hem
-                dönüşüm oranı birlikte desteklenir.
-              </p>
-
-              <div className="mt-8 grid gap-4 md:grid-cols-3">
+        <section className="section">
+          <div className="container-x grid gap-8 lg:grid-cols-[1fr_1fr]">
+            <div className="card p-7 md:p-8">
+              <h2 className="text-2xl font-extrabold text-ink">Bu hizmetle ne kazanırsınız?</h2>
+              <ul className="mt-6 space-y-4">
                 {service.benefits.map((benefit) => (
-                  <div
-                    key={benefit}
-                    className="rounded-2xl border border-white/8 bg-white/4 p-5 text-sm leading-7 text-white/55"
-                  >
+                  <li key={benefit} className="flex gap-3 text-[0.9375rem] leading-7 text-ink-soft">
+                    <Check size={18} aria-hidden className="mt-1 shrink-0 text-accent" />
                     {benefit}
-                  </div>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
-
-            <div className="glass-card rounded-3xl p-8 md:p-10">
-              <h2
-                className="text-3xl font-black"
-                style={{ fontFamily: "var(--font-display), sans-serif" }}
-              >
-                Lokal odak
-              </h2>
-              <div className="mt-6 space-y-3">
-                {service.localFocus.map((area) => (
-                  <div
-                    key={area}
-                    className="flex items-center gap-3 rounded-2xl border border-white/8 bg-black/20 px-4 py-3 text-sm text-white/60"
-                  >
-                    <MapPin size={14} className="text-primary" />
-                    {area}
-                  </div>
+            <div className="card p-7 md:p-8">
+              <h2 className="text-2xl font-extrabold text-ink">Kapsam</h2>
+              <ul className="mt-6 space-y-3">
+                {service.deliverables.map((item) => (
+                  <li key={item} className="flex gap-3 rounded-lg bg-surface-soft px-4 py-3 text-[0.9375rem] leading-6 text-ink-soft">
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden />
+                    {item}
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
           </div>
         </section>
 
-        <section className="border-t border-white/6 px-4 py-16 md:py-20">
-          <div className="container mx-auto">
-            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-              {service.deliverables.map((item) => (
-                <div
-                  key={item}
-                  className="glass-card rounded-3xl p-7 text-sm leading-7 text-white/55"
-                >
-                  <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl border border-primary/20 bg-primary/8">
-                    <Check size={16} className="text-primary" />
-                  </div>
-                  {item}
-                </div>
-              ))}
+        {service.sections && service.sections.length > 0 ? (
+          <section className="border-y border-line bg-surface py-16 md:py-20">
+            <div className="container-x">
+              <div className="mx-auto max-w-3xl space-y-12">
+                {service.sections.map((section) => (
+                  <article key={section.heading}>
+                    <h2 className="mb-4 text-2xl font-extrabold leading-tight text-ink sm:text-3xl">{section.heading}</h2>
+                    <RichText text={section.body} />
+                  </article>
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        ) : null}
 
-        <section className="border-t border-white/6 px-4 py-16 md:py-20">
-          <div className="container mx-auto">
-            <div className="max-w-3xl">
-              <span className="section-label">Çalışma Modeli</span>
-              <h2
-                className="mt-5 text-4xl font-black tracking-tight md:text-5xl"
-                style={{ fontFamily: "var(--font-display), sans-serif" }}
-              >
-                Lokal aramadan
-                <span className="text-gradient-gold"> dönüşüme giden akış</span>
-              </h2>
-            </div>
-
-            <div className="mt-10 grid gap-5 md:grid-cols-3">
+        <section className="section">
+          <div className="container-x">
+            <SectionHeading eyebrow="Süreç" title="Nasıl ilerliyoruz?" />
+            <ol className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
               {service.process.map((step, index) => (
-                <div key={step.title} className="glass-card rounded-3xl p-8">
-                  <div className="text-xs font-bold uppercase tracking-[0.22em] text-primary/75">
-                    0{index + 1}
-                  </div>
-                  <h3
-                    className="mt-5 text-2xl font-black leading-tight"
-                    style={{ fontFamily: "var(--font-display), sans-serif" }}
-                  >
-                    {step.title}
-                  </h3>
-                  <p className="mt-4 text-sm leading-7 text-white/50">
-                    {step.description}
-                  </p>
-                </div>
+                <li key={step.title} className="card reveal p-6">
+                  <span className="text-sm font-extrabold text-accent">0{index + 1}</span>
+                  <h3 className="mt-3 text-lg font-bold text-ink">{step.title}</h3>
+                  <p className="mt-2 text-[0.9375rem] leading-7 text-muted">{step.description}</p>
+                </li>
               ))}
-            </div>
+            </ol>
           </div>
         </section>
 
-        <section className="border-t border-white/6 px-4 py-16 md:py-20">
-          <div className="container mx-auto grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
-            <div>
-              <span className="section-label">SSS</span>
-              <h2
-                className="mt-5 text-4xl font-black tracking-tight md:text-5xl"
-                style={{ fontFamily: "var(--font-display), sans-serif" }}
-              >
-                Sık sorulan sorular
-              </h2>
-            </div>
-
-            <div className="space-y-4">
-              {service.faq.map((item) => (
-                <div key={item.question} className="glass-card rounded-3xl p-7">
-                  <h3
-                    className="text-xl font-black leading-tight"
-                    style={{ fontFamily: "var(--font-display), sans-serif" }}
-                  >
-                    {item.question}
-                  </h3>
-                  <p className="mt-4 text-sm leading-7 text-white/55">
-                    {item.answer}
-                  </p>
-                </div>
-              ))}
-            </div>
+        {service.faq.length > 0 ? (
+          <div className="border-y border-line bg-surface">
+            <Faq eyebrow="SSS" title="Sık sorulan sorular" items={service.faq} />
           </div>
-        </section>
+        ) : null}
 
-        <section className="border-t border-white/6 px-4 py-16 md:py-20">
-          <div className="container mx-auto">
-            <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-              <div>
-                <span className="section-label">İçerik Kümesi</span>
-                <h2
-                  className="mt-5 text-4xl font-black tracking-tight md:text-5xl"
-                  style={{ fontFamily: "var(--font-display), sans-serif" }}
-                >
-                  Bu hizmeti destekleyen blog içerikleri
-                </h2>
+        {relatedPosts.length > 0 ? (
+          <section className="section">
+            <div className="container-x">
+              <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+                <SectionHeading eyebrow="Rehberler" title="Bu hizmetle ilgili yazılar" />
+                <Link href="/blog" className="btn btn-secondary">
+                  Tüm yazılar
+                </Link>
               </div>
-              <Link href="/blog" className="btn-ghost">
-                Tüm yazıları incele
-                <ArrowRight size={14} />
-              </Link>
+              <ul className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+                {relatedPosts.map((post) => (
+                  <li key={post.slug} className="reveal">
+                    <PostCard post={post} />
+                  </li>
+                ))}
+              </ul>
             </div>
+          </section>
+        ) : null}
 
-            <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-              {relatedPosts.map((post) => post && (
-                <Link
-                  key={post.slug}
-                  href={`/blog/${post.slug}`}
-                  className="group glass-card rounded-3xl p-7 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30"
-                >
-                  <span className="section-label">{post.category}</span>
-                  <h3
-                    className="mt-5 text-2xl font-black leading-tight"
-                    style={{ fontFamily: "var(--font-display), sans-serif" }}
+        <section className="border-t border-line bg-surface py-14">
+          <div className="container-x">
+            <h2 className="text-xl font-extrabold text-ink">Diğer hizmetler</h2>
+            <ul className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {otherServices.map((item) => (
+                <li key={item.slug}>
+                  <Link
+                    href={`/hizmetler/${item.slug}`}
+                    className="flex items-center justify-between gap-3 rounded-lg border border-line bg-bg px-4 py-3.5 text-sm font-semibold text-ink-soft transition-colors hover:border-accent hover:text-accent"
                   >
-                    {post.title}
-                  </h3>
-                  <p className="mt-4 text-sm leading-7 text-white/50">
-                    {post.excerpt}
-                  </p>
-                  <div className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary">
-                    Yazıyı aç
-                    <ArrowRight size={14} />
-                  </div>
-                </Link>
+                    {item.title}
+                    <ArrowRight size={15} aria-hidden />
+                  </Link>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </section>
 
-        <section className="px-4 py-20">
-          <div className="container mx-auto">
-            <div
-              className="rounded-3xl border border-primary/20 px-8 py-14 text-center"
-              style={{
-                background:
-                  "linear-gradient(145deg, rgba(250,193,1,0.12), rgba(0,0,0,0.65))",
-              }}
-            >
-              <h2
-                className="text-3xl font-black md:text-4xl"
-                style={{ fontFamily: "var(--font-display), sans-serif" }}
-              >
-                {service.title} için markanıza özel plan hazırlayalım
+        <section className="section">
+          <div className="container-x">
+            <div className="card p-8 text-center md:p-12">
+              <h2 className="text-2xl font-extrabold text-ink sm:text-3xl">
+                {service.title} için işletmenize özel plan hazırlayalım
               </h2>
-              <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-white/55">
-                Ücretsiz ilk görüşmede hedef bölgenizi, bütçenizi ve içerik veya
-                reklam tarafında hangi sayfaların öncelikli olması gerektiğini
-                birlikte netleştirelim.
+              <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-ink-soft">
+                {"Formu doldurun ya da WhatsApp'tan yazın; mevcut durumunuzu ücretsiz inceleyip somut önerilerle dönelim."}
               </p>
-              <div className="mt-8 flex flex-wrap justify-center gap-3">
-                <Link href="/iletisim" className="btn-primary">
-                  Ücretsiz görüşme al
-                  <ArrowRight size={14} />
+              <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
+                <Link href="/iletisim" className="btn btn-primary">
+                  Ücretsiz Teklif Al
+                  <ArrowRight size={16} aria-hidden />
                 </Link>
-                <Link href="/blog" className="btn-ghost">
-                  Önce blogu incele
+                <Link href="/blog" className="btn btn-secondary">
+                  Önce rehberleri oku
                 </Link>
               </div>
             </div>

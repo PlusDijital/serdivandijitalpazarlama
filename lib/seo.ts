@@ -27,6 +27,11 @@ export function buildRootMetadata(site: SiteSettings): Metadata {
       title: site.defaultSeo.twitterTitle,
       description: site.defaultSeo.twitterDescription,
     },
+    verification: {
+      ...(process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : {}),
+      ...(process.env.YANDEX_VERIFICATION ? { yandex: process.env.YANDEX_VERIFICATION } : {}),
+      ...(process.env.BING_SITE_VERIFICATION ? { other: { "msvalidate.01": process.env.BING_SITE_VERIFICATION } } : {}),
+    },
     robots: {
       index: true,
       follow: true,
@@ -57,6 +62,8 @@ export function buildPageMetadata(
       description: seo.openGraphDescription ?? seo.description,
       url: seo.canonical,
       siteName: site.brandName,
+      locale: "tr_TR",
+      type: "website",
     },
   };
 }
