@@ -49,11 +49,20 @@ const nextConfig: NextConfig = {
   // Cloudflare Workers'ta Next görsel optimizasyonu yok; görseller önceden AVIF/WebP hazırlanır.
   images: { unoptimized: true },
   async redirects() {
-    return legacyRedirects.map(([source, destination]) => ({
-      source,
-      destination,
-      permanent: true,
-    }));
+    return [
+      // www → çıplak alan adı (tek kanonik adres)
+      {
+        source: "/:path*",
+        has: [{ type: "host" as const, value: "www.serdivanreklamajansi.com" }],
+        destination: "https://serdivanreklamajansi.com/:path*",
+        permanent: true,
+      },
+      ...legacyRedirects.map(([source, destination]) => ({
+        source,
+        destination,
+        permanent: true,
+      })),
+    ];
   },
   async headers() {
     return [

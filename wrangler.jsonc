@@ -8,6 +8,11 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS"
   },
+  // Alan adı: Cloudflare'de proxied A/CNAME kayıtları üzerinden Worker rotası.
+  "routes": [
+    { "pattern": "serdivanreklamajansi.com/*", "zone_name": "serdivanreklamajansi.com" },
+    { "pattern": "www.serdivanreklamajansi.com/*", "zone_name": "serdivanreklamajansi.com" }
+  ],
   "observability": {
     "enabled": true
   },
