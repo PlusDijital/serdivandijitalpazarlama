@@ -542,7 +542,7 @@ export const defaultCmsData: CmsData = {
       title: "Teklif formu",
       successTitle: "Mesajınız ulaştı",
       successDescription: "Teşekkürler. İş günlerinde 48 saat içinde e-posta ile dönüş yapacağız.",
-      errorMessage: "Gönderim başarısız oldu. Lütfen tekrar deneyin ya da WhatsApp veya e-posta ile yazın.",
+      errorMessage: "Gönderim başarısız oldu. Lütfen tekrar deneyin ya da sayfanın altındaki WhatsApp düğmesiyle yazın.",
       submitLabel: "Teklif İste",
       loadingLabel: "Gönderiliyor…",
       consentLabel: "Bilgilerimin bana dönüş yapılması amacıyla işlenmesini kabul ediyorum.",

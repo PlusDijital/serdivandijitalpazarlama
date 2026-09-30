@@ -19,7 +19,7 @@
   // Gizli değerler (wrangler secret put): RESEND_API_KEY, TURNSTILE_SECRET_KEY
   // Yerelde: .dev.vars dosyası (git'e girmez)
   "vars": {
-    "CONTACT_TO_EMAIL": "info@plusdijital.com",
+    "CONTACT_TO_EMAIL": "plusdijital54@gmail.com",
     "CONTACT_FROM_EMAIL": "Serdivan Reklam Ajansı <form@serdivanreklamajansi.com>",
     "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "1x00000000000000000000AA"
   }

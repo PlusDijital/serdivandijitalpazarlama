@@ -3,15 +3,35 @@
 import { useState } from "react";
 import { Turnstile } from "@marsidev/react-turnstile";
 import { CheckCircle, Send } from "lucide-react";
+import WhatsAppIcon from "@/components/WhatsAppIcon";
+import { whatsappUrl } from "@/lib/contact";
 import type { ContactFormContent } from "@/lib/cms-types";
 
-type Status = "idle" | "loading" | "success" | "error";
+type Status = "idle" | "loading" | "success" | "whatsapp" | "error";
+
+/** Form bilgilerinden WhatsApp mesajı: e-posta çalışmasa bile talep kaybolmaz. */
+function leadMessage(p: Record<string, FormDataEntryValue>) {
+  const v = (k: string) => String(p[k] ?? "").trim();
+  return [
+    "Merhaba, serdivanreklamajansi.com üzerinden teklif istiyorum.",
+    `Ad Soyad: ${v("name")}`,
+    `İşletme: ${v("company")}`,
+    v("area") && `Bölge: ${v("area")}`,
+    `Hizmet: ${v("service")}`,
+    v("phone") && `Telefon: ${v("phone")}`,
+    `E-posta: ${v("email")}`,
+    v("message") && `Mesaj: ${v("message")}`,
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
 
 const inputClass =
   "w-full min-h-12 rounded-lg border border-line bg-bg px-4 py-3 text-base text-ink placeholder:text-muted/70 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/25";
 
-export default function ContactForm({ form }: { form: ContactFormContent }) {
+export default function ContactForm({ form, whatsapp }: { form: ContactFormContent; whatsapp?: string }) {
   const [status, setStatus] = useState<Status>("idle");
+  const [waLink, setWaLink] = useState("");
   const [token, setToken] = useState("");
   const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
@@ -22,6 +42,8 @@ export default function ContactForm({ form }: { form: ContactFormContent }) {
 
     const data = new FormData(event.currentTarget);
     const payload = Object.fromEntries(data.entries());
+    const wa = whatsapp ? whatsappUrl(whatsapp, leadMessage(payload)) : "";
+    setWaLink(wa);
 
     try {
       const response = await fetch("/api/contact", {
@@ -36,8 +58,30 @@ export default function ContactForm({ form }: { form: ContactFormContent }) {
         service: String(payload.service ?? ""),
       });
     } catch {
-      setStatus("error");
+      // E-posta gönderilemezse talebi WhatsApp mesajı olarak ilet.
+      if (wa) {
+        setStatus("whatsapp");
+        window.location.href = wa;
+      } else {
+        setStatus("error");
+      }
     }
+  }
+
+  if (status === "whatsapp") {
+    return (
+      <div role="status" className="mt-6 rounded-[var(--radius-card)] bg-accent-soft p-8 text-center">
+        <WhatsAppIcon size={40} className="mx-auto text-[#0f7a40]" />
+        <h3 className="mt-4 text-xl font-extrabold text-ink">{"WhatsApp'a yönlendiriliyorsunuz"}</h3>
+        <p className="mt-2 text-[0.9375rem] leading-7 text-ink-soft">
+          Bilgileriniz hazır bir mesaj olarak açılıyor; göndermeniz yeterli. Açılmazsa aşağıdaki düğmeye dokunun.
+        </p>
+        <a href={waLink} rel="noopener" data-track="whatsapp" className="btn mt-5 bg-[#0f7a40] text-white hover:bg-[#0c6535]">
+          <WhatsAppIcon size={18} />
+          {"WhatsApp'ta aç"}
+        </a>
+      </div>
+    );
   }
 
   if (status === "success") {
@@ -46,6 +90,12 @@ export default function ContactForm({ form }: { form: ContactFormContent }) {
         <CheckCircle size={44} aria-hidden className="mx-auto text-accent" />
         <h3 className="mt-4 text-xl font-extrabold text-ink">{form.successTitle}</h3>
         <p className="mt-2 text-[0.9375rem] leading-7 text-ink-soft">{form.successDescription}</p>
+        {waLink ? (
+          <a href={waLink} rel="noopener" data-track="whatsapp" className="btn mt-5 border border-line bg-surface text-ink hover:border-accent">
+            <WhatsAppIcon size={18} className="text-[#0f7a40]" />
+            {"Daha hızlı dönüş için WhatsApp'tan da iletin"}
+          </a>
+        ) : null}
       </div>
     );
   }

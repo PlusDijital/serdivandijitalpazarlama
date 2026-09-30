@@ -86,7 +86,7 @@ export default function ContactPage() {
 
             <div className="card p-6 md:p-8">
               <h2 className="text-2xl font-extrabold text-ink">{content.form.title}</h2>
-              <ContactForm form={content.form} />
+              <ContactForm form={content.form} whatsapp={cms.site.business?.whatsapp} />
             </div>
           </div>
         </section>
