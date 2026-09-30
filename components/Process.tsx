@@ -7,11 +7,11 @@ export default function Process({ content }: { content: HomeProcessContent }) {
     <section className="section" aria-labelledby="surec">
       <div className="container-x">
         <SectionHeading eyebrow={content.eyebrow} title={content.title} description={content.description} />
-        <ol className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+        <ol className="process-steps mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
           {content.steps.map((step, index) => (
             <li key={step.title} className="card reveal relative p-6">
               <div className="flex items-center justify-between">
-                <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-ink text-white">
+                <span className="relative z-10 flex h-11 w-11 items-center justify-center rounded-lg bg-ink text-white ring-4 ring-surface">
                   <ContentIcon name={step.icon} size={20} />
                 </span>
                 <span className="text-sm font-extrabold text-accent">0{index + 1}</span>

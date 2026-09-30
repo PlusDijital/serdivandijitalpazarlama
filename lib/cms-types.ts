@@ -126,6 +126,8 @@ export type FooterContent = {
 export type HomeHeroContent = {
   eyebrow: string;
   title: string;
+  /** Başlıkta vurgulanacak kısım (başlığın içinde geçmeli). */
+  titleHighlight?: string;
   description: string;
   primaryCta: LinkItem;
   secondaryCta: LinkItem;
@@ -135,6 +137,8 @@ export type HomeHeroContent = {
 
 export type ServiceCard = {
   icon: IconName;
+  /** Varsa ikon yerine platform logosu gösterilir. */
+  brand?: import("@/lib/brand-icons").BrandIconKey;
   title: string;
   description: string;
   href: string;

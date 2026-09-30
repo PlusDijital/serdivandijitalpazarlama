@@ -15,7 +15,15 @@ export default function Hero({ content }: { content: HomeHeroContent }) {
             {content.eyebrow}
           </span>
           <h1 className="mt-6 text-4xl font-extrabold leading-[1.04] tracking-tight text-ink sm:text-5xl lg:text-[4.25rem]">
-            {content.title}
+            {content.titleHighlight && content.title.includes(content.titleHighlight) ? (
+              <>
+                {content.title.split(content.titleHighlight)[0]}
+                <span className="text-highlight">{content.titleHighlight}</span>
+                {content.title.split(content.titleHighlight)[1]}
+              </>
+            ) : (
+              content.title
+            )}
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-8 text-ink-soft sm:text-xl sm:leading-9">{content.description}</p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">

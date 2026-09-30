@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import BrandIcon from "@/components/BrandIcon";
 import SectionHeading from "@/components/SectionHeading";
 import { ContentIcon } from "@/lib/icon-map";
 import type { HomeServicesContent } from "@/lib/cms-types";
@@ -11,22 +12,33 @@ export default function Services({ content }: { content: HomeServicesContent }) 
         <SectionHeading eyebrow={content.eyebrow} title={content.title} description={content.description} />
         <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {content.cards.map((card, index) => (
-            <li key={card.href} className={`reveal ${index === 0 ? "sm:col-span-2 lg:col-span-1 lg:row-span-2" : ""}`}>
+            <li
+              key={card.href}
+              className={`reveal ${index === 0 ? "sm:col-span-2 lg:col-span-1 lg:row-span-2" : ""} ${
+                index === content.cards.length - 1 && content.cards.length % 2 === 1 ? "sm:col-span-2" : ""
+              }`}
+            >
               <Link
                 href={card.href}
                 className={`group relative flex h-full flex-col overflow-hidden rounded-[var(--radius-card)] border p-6 transition-all duration-200 hover:-translate-y-0.5 md:p-7 ${
                   index === 0
                     ? "border-ink bg-ink text-white shadow-card"
-                    : "border-line bg-surface shadow-card hover:border-accent/50"
+                    : "card-glow border-line bg-surface shadow-card hover:border-accent/50"
                 }`}
               >
                 <div className="flex items-start justify-between">
                   <span
                     className={`flex h-12 w-12 items-center justify-center rounded-xl ${
-                      index === 0 ? "bg-white/10 text-accent-soft" : "bg-accent-soft text-accent"
+                      card.brand
+                        ? index === 0
+                          ? "bg-white"
+                          : "border border-line bg-surface shadow-card"
+                        : index === 0
+                          ? "bg-white/10 text-accent-soft"
+                          : "bg-accent-soft text-accent"
                     }`}
                   >
-                    <ContentIcon name={card.icon} size={22} />
+                    {card.brand ? <BrandIcon name={card.brand} size={24} /> : <ContentIcon name={card.icon} size={22} />}
                   </span>
                   <ArrowUpRight
                     size={20}

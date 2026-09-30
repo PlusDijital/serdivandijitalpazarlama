@@ -147,6 +147,7 @@ export const defaultCmsData: CmsData = {
     hero: {
       eyebrow: "Serdivan · Sakarya",
       title: "Serdivan Reklam Ajansı",
+      titleHighlight: "Reklam Ajansı",
       description:
         "Serdivan'daki işletmenizin Google'da, haritalarda, Instagram'da ve yapay zeka aramalarında sizi arayan müşteriye görünmesini sağlıyoruz. Reklam, SEO ve web sitesi tek plan, tek rapor.",
       primaryCta: { href: "/iletisim", label: "Ücretsiz Teklif Al" },
@@ -167,6 +168,7 @@ export const defaultCmsData: CmsData = {
       cards: [
         {
           icon: "search",
+          brand: "googleads",
           title: "Google Ads Yönetimi",
           description:
             "Serdivan ve çevresinde sizi arayan müşteriye arama anında görünün. Dönüşüm takibi, negatif kelime ve konum ayarı dahil.",
@@ -174,6 +176,7 @@ export const defaultCmsData: CmsData = {
         },
         {
           icon: "instagram",
+          brand: "instagram",
           title: "Instagram ve Facebook Reklamları",
           description:
             "Henüz aramaya başlamamış kitleye görsel ve video reklamla ulaşın; kafe, güzellik, perakende ve etkinlik için ideal.",
@@ -181,6 +184,7 @@ export const defaultCmsData: CmsData = {
         },
         {
           icon: "map-pin",
+          brand: "googlemaps",
           title: "Yerel SEO",
           description:
             "\"Serdivan\" ve \"yakınımda\" aramalarında ve Google Haritalar'da üst sıralara çıkın; reklama bağımlılığı azaltın.",

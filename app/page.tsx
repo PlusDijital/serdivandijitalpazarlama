@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import BrandSprite from "@/components/BrandSprite";
 import CaseStudies from "@/components/CaseStudies";
 import CTA from "@/components/CTA";
 import Faq from "@/components/Faq";
@@ -26,6 +27,7 @@ export default function Home() {
   return (
     <>
       <JsonLd data={graph(faqSchema(home.faq.items))} />
+      <BrandSprite />
       <Header site={cms.site} header={cms.header} />
       <main id="icerik">
         <Hero content={home.hero} />

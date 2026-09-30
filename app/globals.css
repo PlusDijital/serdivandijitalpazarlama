@@ -169,6 +169,68 @@
       22px 22px;
   }
 
+  /* Başlık vurgusu: metnin altında yumuşak vurgu şeridi (görsel dosyası yok). */
+  .text-highlight {
+    background-image: linear-gradient(transparent 62%, rgba(14, 124, 102, 0.18) 62%, rgba(14, 124, 102, 0.18) 92%, transparent 92%);
+    color: var(--color-ink);
+    padding-inline: 0.05em;
+  }
+
+  /* Kart üst kenarında hover'da beliren vurgu çizgisi. */
+  .card-glow::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-accent), #34d3a8, var(--color-accent));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s ease;
+  }
+  .card-glow:hover::before {
+    transform: scaleX(1);
+  }
+
+  .platform-chip {
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease,
+      transform 0.2s ease;
+  }
+  .platform-chip:hover {
+    border-color: rgba(14, 124, 102, 0.35);
+    box-shadow: var(--shadow-card);
+    transform: translateY(-2px);
+  }
+
+  /* Süreç adımlarını birleştiren kesikli çizgi (yalnızca geniş ekranda). */
+  @media (min-width: 1024px) {
+    .process-steps {
+      position: relative;
+    }
+    .process-steps::before {
+      content: "";
+      position: absolute;
+      top: 2.9rem;
+      left: 3rem;
+      right: 3rem;
+      border-top: 2px dashed var(--color-line);
+    }
+  }
+
+  /* Koyu CTA paneli: degrade + nokta ızgara, görsel dosyası yok. */
+  .cta-panel {
+    background-color: var(--color-ink);
+    background-image:
+      radial-gradient(40rem 20rem at 100% 0%, rgba(52, 211, 168, 0.22), transparent 60%),
+      radial-gradient(30rem 18rem at 0% 100%, rgba(14, 124, 102, 0.35), transparent 60%),
+      radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.06) 1px, transparent 0);
+    background-size:
+      auto,
+      auto,
+      20px 20px;
+  }
+
   .toc a:hover {
     color: var(--color-accent);
   }
