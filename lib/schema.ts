@@ -33,7 +33,7 @@ export function organizationSchema(site: SiteSettings) {
     name: site.brandName,
     alternateName: [site.brandShortName, "Serdivan Reklam"],
     url: site.siteUrl,
-    logo: `${site.siteUrl}/icon`,
+    logo: `${site.siteUrl}/icons/icon-512.png`,
     image: `${site.siteUrl}/opengraph-image`,
     description: site.defaultSeo.description,
     slogan: "Serdivan'daki işletmeler için ölçülebilir reklam",
