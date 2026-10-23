@@ -12,7 +12,7 @@
 # Ortam (iş akışı verir):
 #   KAPI_YENI      eklenebilecek dosyalar (regex)       KAPI_DEGISIM  değiştirilebilecek dosyalar (regex)
 #   KAPI_ICERIK    içerik dosyaları (regex)             KAPI_KONTROL  içerik dosyası başına kontrol komutu
-#   KAPI_DERLE     derleme komutu                       KAPI_CIKTI    derleme sonrası kontrol komutu (isteğe bağlı)
+#   KAPI_DERLE     derleme komutu                       KAPI_CIKTI    derleme sonrası kontrol (isteğe bağlı; $ICERIK = değişen içerik dosyaları)
 #   SEO_AJANI_DURDUR, SEO_AJANI_HAFTALIK (varsayılan 3), GH_TOKEN
 # Yerel deneme: KAPI_TEST=1 KURU=1 bash scripts/ajan-kapi.sh
 
@@ -113,7 +113,7 @@ for d in $ICERIK; do
   $KAPI_KONTROL "$d" || reddet "Kural kontrolü geçmedi: $d"
 done
 bash -c "$KAPI_DERLE" > /tmp/derleme.log 2>&1 || { tail -40 /tmp/derleme.log; reddet "Site derlenemedi"; }
-if [ -n "${KAPI_CIKTI:-}" ]; then bash -c "$KAPI_CIKTI" || reddet "Derleme çıktısı kontrolü geçmedi"; fi
+if [ -n "${KAPI_CIKTI:-}" ]; then ICERIK="$ICERIK" bash -c "$KAPI_CIKTI" || reddet "Derleme çıktısı kontrolü geçmedi"; fi
 
 git "${BOT[@]}" commit -q -m "Ajan: $BASLIK" -m "Dal: $DAL"
 calistir git push -q origin main
