@@ -33,7 +33,11 @@ jobs:
 
       - name: Bekleyen dal var mı
         id: dal
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: |
+          # Token yoksa birleştirme de yapılmaz; aksi hâlde main canlıdan ileride kalırdı.
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then echo "CLOUDFLARE_API_TOKEN yok; dallar bekletiliyor." >> "$GITHUB_STEP_SUMMARY"; exit 0; fi
           if git ls-remote --heads origin 'claude/ajan-*' 'claude/taslak-*' | grep -q .; then echo "var=1" >> "$GITHUB_OUTPUT"; fi
 
       - uses: actions/setup-node@v4
