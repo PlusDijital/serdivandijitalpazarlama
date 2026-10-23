@@ -11,6 +11,8 @@ const serviceLandingPages = [...servicesA, ...servicesB];
 
 const SITE_URL = "https://serdivanreklamajansi.com";
 const EMAIL = "info@serdivanreklamajansi.com";
+const PHONE_DISPLAY = "0531 633 95 96";
+const PHONE_E164 = "+905316339596";
 
 function withBlogDefaults(posts: BlogPostContent[]): BlogPost[] {
   return posts.map((post) => ({
@@ -58,8 +60,8 @@ export const defaultCmsData: CmsData = {
         "Serdivan Reklam Ajansı, Sakarya merkezli Google Partner ajans Plus Dijital'in yerel markasıdır.",
     },
     business: {
-      // Telefon girildiğinde sitede, schema'da ve llms.txt'de otomatik görünür.
-      phone: "",
+      // Schema ve llms.txt'de kullanılır; sayfalarda contactItems üzerinden gösterilir.
+      phone: PHONE_E164,
       // Plus Dijital WhatsApp hattı (plusdijital.com'da herkese açık). Boş bırakılırsa butonlar gizlenir.
       whatsapp: "905396108154",
       email: EMAIL,
@@ -108,6 +110,7 @@ export const defaultCmsData: CmsData = {
       { href: "/hizmetler/serdivan-geo-yapay-zeka-arama-optimizasyonu", label: "GEO / Yapay Zeka Arama" },
     ],
     contactItems: [
+      { icon: "phone", label: "Telefon", value: PHONE_DISPLAY, href: `tel:${PHONE_E164}` },
       { icon: "mail", label: "E-posta", value: EMAIL, href: `mailto:${EMAIL}` },
       {
         icon: "send",
@@ -513,6 +516,7 @@ export const defaultCmsData: CmsData = {
     infoDescription:
       "Form doğrudan WhatsApp'a iletilir. Ardından ön analizi paylaşıyor, isterseniz görüşme planlıyoruz.",
     contactItems: [
+      { icon: "phone", label: "Telefon", value: PHONE_DISPLAY, href: `tel:${PHONE_E164}` },
       { icon: "mail", label: "E-posta", value: EMAIL, href: `mailto:${EMAIL}` },
       {
         icon: "send",
