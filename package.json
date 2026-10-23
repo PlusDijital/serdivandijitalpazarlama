@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 3010",
-    "build": "next build",
+    "dev": "node scripts/ajan-indeks.mjs && next dev --port 3010",
+    "build": "node scripts/ajan-indeks.mjs && next build",
     "start": "next start",
     "lint": "eslint",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",

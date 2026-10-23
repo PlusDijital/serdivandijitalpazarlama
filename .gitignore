@@ -39,3 +39,6 @@ next-env.d.ts
 .wrangler/
 .dev.vars
 cloudflare-env.d.ts
+
+# SEO ajanı: scripts/ajan-indeks.mjs üretir
+content/ajan-index.ts

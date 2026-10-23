@@ -1,6 +1,7 @@
 import { blogA } from "@/content/blog-a";
 import { blogB } from "@/content/blog-b";
 import { blogC } from "@/content/blog-c";
+import { ajanPosts } from "@/content/ajan-index";
 import { servicesA } from "@/content/services-a";
 import { servicesB } from "@/content/services-b";
 import type { BlogPost, CmsData } from "@/lib/cms-types";
@@ -597,5 +598,6 @@ export const defaultCmsData: CmsData = {
     featuredLabel: "Öne çıkan",
   },
   serviceLandingPages,
-  blogPosts: withBlogDefaults([...blogC, ...blogA, ...blogB]),
+  // SEO ajanının yazıları (content/ajan/*.json) en yeni önce, elle yazılanların önünde.
+  blogPosts: [...ajanPosts, ...withBlogDefaults([...blogC, ...blogA, ...blogB])],
 };
