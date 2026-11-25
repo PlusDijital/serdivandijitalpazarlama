@@ -17,6 +17,18 @@ type Params = Promise<{ slug: string }>;
 
 const cms = getCmsData();
 
+// Kardeş markalara tek bağlamsal bağlantı: her hizmet sayfası, Sakarya geneli için ana markadaki (plusdijital.com)
+// ya da SEO markasındaki (sakaryaseoajansi.com) ilgili sayfayı gösterir. Site genelinde tekrar eden anahtar kelimeli bağlantı yoktur.
+const SISTER_PAGE: Record<string, { before: string; href: string; label: string; after: string }> = {
+  "serdivan-seo-ajansi": { before: "Serdivan dışındaki ilçelerde ya da Sakarya genelinde SEO çalışması için aynı ekibin SEO markası ", href: "https://sakaryaseoajansi.com/", label: "Sakarya SEO Ajansı", after: " sitesinde yerel SEO, teknik SEO ve Google Haritalar hizmetlerini ayrıntılı bulabilirsiniz." },
+  "serdivan-web-tasarim": { before: "Kurumsal ölçekte ya da Sakarya'nın diğer ilçelerinde bir site planlıyorsanız ana markamız Plus Dijital'in ", href: "https://plusdijital.com/sakarya-web-tasarim-plus-dijital-reklam-ajansi/", label: "Sakarya web tasarım", after: " sayfasında site türlerini ve süreci inceleyebilirsiniz." },
+  "serdivan-google-ads-yonetimi": { before: "Birden fazla şube, e-ticaret ya da Türkiye geneli kampanyalar için ana markamız Plus Dijital'in ", href: "https://plusdijital.com/google-ads-uzmani-plus-dijital-reklam-ajansi/", label: "Google Ads yönetimi", after: " sayfasına bakabilirsiniz; Plus Dijital bir Google Partner ajansıdır." },
+  "serdivan-instagram-reklam-yonetimi": { before: "Katalog reklamları ve e-ticaret odaklı Meta kampanyaları için ana markamız Plus Dijital'in ", href: "https://plusdijital.com/hizmetlerimiz/meta-reklamlari/", label: "Meta reklamları danışmanlığı", after: " sayfasını inceleyebilirsiniz." },
+  "serdivan-sosyal-medya-ajansi": { before: "Sakarya genelinde içerik, Reels çekimi ve reklamı tek ekipte toplayan hizmetimiz için ana markamız Plus Dijital'in ", href: "https://plusdijital.com/sakarya-sosyal-medya-ajansi/", label: "Sakarya sosyal medya ajansı", after: " sayfasına bakabilirsiniz." },
+  "serdivan-geo-yapay-zeka-arama-optimizasyonu": { before: "Türkiye geneline satış yapan markalar ve e-ticaret siteleri için ana markamız Plus Dijital'in ", href: "https://plusdijital.com/hizmetlerimiz/geo-danismanligi/", label: "GEO danışmanlığı", after: " sayfasında çalışma sürecini bulabilirsiniz." },
+  "serdivan-dijital-pazarlama-ajansi": { before: "Sakarya'nın 16 ilçesinde ve Türkiye genelinde yürüttüğümüz çalışmalar için ana markamız Plus Dijital'in ", href: "https://plusdijital.com/sakarya-dijital-ajans-plus-dijital-pazarlama/", label: "Sakarya dijital ajans", after: " sayfasını inceleyebilirsiniz." },
+};
+
 export function generateStaticParams() {
   return cms.serviceLandingPages.map((service) => ({ slug: service.slug }));
 }
@@ -46,6 +58,7 @@ export default async function ServiceDetailPage({ params }: { params: Params }) 
   if (!service) notFound();
 
   const relatedPosts = getBlogPostsBySlugs(service.relatedPosts);
+  const sister = SISTER_PAGE[service.slug];
   const otherServices = cms.serviceLandingPages.filter((item) => item.slug !== service.slug);
   const pageUrl = `${cms.site.siteUrl}/hizmetler/${service.slug}`;
   const structuredData = graph(
@@ -136,6 +149,18 @@ export default async function ServiceDetailPage({ params }: { params: Params }) 
                   </article>
                 ))}
               </div>
+            </div>
+          </section>
+        ) : null}
+
+        {sister ? (
+          <section className="py-10">
+            <div className="container-x">
+              <p className="mx-auto max-w-3xl text-[0.9375rem] leading-7 text-muted">
+                {sister.before}
+                <a href={sister.href} className="font-bold text-accent underline-offset-2 hover:underline" rel="noopener">{sister.label}</a>
+                {sister.after}
+              </p>
             </div>
           </section>
         ) : null}

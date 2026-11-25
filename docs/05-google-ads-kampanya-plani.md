@@ -100,7 +100,7 @@ taban puan
 
 - Site bağlantıları: Hizmetler, İletişim ve Teklif, Google Ads Yönetimi, Reklam Ajansı Fiyatları (blog yazısı)
 - Açıklama metinleri: "Ücretsiz Analiz", "Hesap Sizin Adınıza", "Aylık Rapor", "Taahhüt Yok"
-- Mesaj öğesi (WhatsApp): 0539 610 81 54, mesai saatlerinde
+- Mesaj öğesi (WhatsApp): 0551 614 54 54, mesai saatlerinde
 - Yapılandırılmış snippet "Hizmetler": Google Ads, Instagram Reklam, Yerel SEO, Web Tasarım, Sosyal Medya
 
 ## İlk 30 gün rutini

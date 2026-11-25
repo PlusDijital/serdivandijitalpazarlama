@@ -37,7 +37,7 @@ Adım adım yapılacaklar `docs/` klasöründe:
 
 ## Form akışı
 
-`/iletisim` formu sunucuya bir şey göndermez: bilgiler hazır bir WhatsApp mesajı olarak 0539 610 81 54'e açılır (`components/ContactForm.tsx`). Numara `lib/cms-defaults.ts` > `site.business.whatsapp` alanından gelir. `info@serdivanreklamajansi.com` ve `info@plusdijital.com` adresleri Cloudflare Email Routing ile `plusdijital54@gmail.com`'a yönlenir.
+`/iletisim` formu sunucuya bir şey göndermez: bilgiler hazır bir WhatsApp mesajı olarak 0551 614 54 54'e açılır (`components/ContactForm.tsx`). Numara `lib/cms-defaults.ts` > `site.business.whatsapp` alanından gelir. `info@serdivanreklamajansi.com` ve `info@plusdijital.com` adresleri Cloudflare Email Routing ile `plusdijital54@gmail.com`'a yönlenir.
 
 ## SEO / GEO
 

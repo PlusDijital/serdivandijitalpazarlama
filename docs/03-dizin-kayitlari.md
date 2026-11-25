@@ -9,7 +9,7 @@ Her platformda **aynı isim, aynı e-posta, aynı web sitesi** kullanın. Tutarl
 | İşletme adı | Serdivan Reklam Ajansı |
 | Web sitesi | https://serdivanreklamajansi.com |
 | E-posta | info@serdivanreklamajansi.com |
-| WhatsApp | 0539 610 81 54 |
+| WhatsApp | 0551 614 54 54 |
 | Hizmet bölgesi | Serdivan, Adapazarı, Erenler, Sakarya |
 | Kategori | Reklam ajansı / Dijital pazarlama ajansı / İnternet pazarlama hizmeti |
 | Çalışma saatleri | Pazartesi – Cuma 09:00–18:00 |
