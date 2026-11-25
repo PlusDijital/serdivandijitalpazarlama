@@ -6,7 +6,7 @@ SEO-GEO ajanı (PlusDijital/seo-geo-ajani) bu siteye yazarken bu dosyaya uyar. O
 - Serdivan Reklam Ajansı, Sakarya merkezli Google Partner ajans **Plus Dijital**'in Serdivan ilçesine odaklanan yerel markasıdır.
 - Kafe, restoran, klinik, emlak, eğitim ve hizmet işletmeleri için Google Ads, Instagram/Facebook reklamları, yerel SEO, sosyal medya, web tasarım ve GEO (yapay zekâ aramalarında görünürlük) hizmeti verir. **Tabela veya baskı işi yapmaz.**
 - Çalışma ilkeleri: medya bütçesi ile hizmet bedeli ayrı yazılır; reklam hesabı işletmenin adına açılır.
-- Telefon 0531 633 95 96, e-posta info@serdivanreklamajansi.com. Fiyat yazılmaz; site fiyat yerine teklif ister.
+- Telefon 0551 614 54 54, e-posta info@serdivanreklamajansi.com. Fiyat yazılmaz; site fiyat yerine teklif ister.
 - Bunların dışında ajans hakkında bilgi gerekiyorsa yalnızca `lib/cms-defaults.ts` ve `content/` içinde yazanları kullan. **Repoda olmayan bilgiyi ajans hakkında yazma.**
 
 ## Okur ve açı

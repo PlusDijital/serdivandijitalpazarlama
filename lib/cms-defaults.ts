@@ -12,8 +12,8 @@ const serviceLandingPages = [...servicesA, ...servicesB];
 
 const SITE_URL = "https://serdivanreklamajansi.com";
 const EMAIL = "info@serdivanreklamajansi.com";
-const PHONE_DISPLAY = "0531 633 95 96";
-const PHONE_E164 = "+905316339596";
+const PHONE_DISPLAY = "0551 614 54 54";
+const PHONE_E164 = "+905516145454";
 
 function withBlogDefaults(posts: BlogPostContent[]): BlogPost[] {
   return posts.map((post) => ({
@@ -64,7 +64,7 @@ export const defaultCmsData: CmsData = {
       // Schema ve llms.txt'de kullanılır; sayfalarda contactItems üzerinden gösterilir.
       phone: PHONE_E164,
       // Plus Dijital WhatsApp hattı (plusdijital.com'da herkese açık). Boş bırakılırsa butonlar gizlenir.
-      whatsapp: "905396108154",
+      whatsapp: "905516145454",
       email: EMAIL,
       // Açık adres yok: hizmet bölgesi işletmesi olarak işaretlenir.
       streetAddress: "",
@@ -116,8 +116,8 @@ export const defaultCmsData: CmsData = {
       {
         icon: "send",
         label: "WhatsApp",
-        value: "0539 610 81 54",
-        href: "https://wa.me/905396108154",
+        value: "0551 614 54 54",
+        href: "https://wa.me/905516145454",
       },
       {
         icon: "map-pin",
@@ -522,8 +522,8 @@ export const defaultCmsData: CmsData = {
       {
         icon: "send",
         label: "WhatsApp",
-        value: "0539 610 81 54",
-        href: "https://wa.me/905396108154",
+        value: "0551 614 54 54",
+        href: "https://wa.me/905516145454",
       },
       {
         icon: "map-pin",

@@ -1,0 +1,44 @@
+name: "Elle yayın (main)"
+
+# main dalındaki sürümü Cloudflare Workers'a yayınlar. Yalnızca elle başlatılır (Actions > Elle yayın > Run workflow).
+# SEO ajanının yayın kapısı (ajan-kapi.yml) kendi yayınını kendisi yapar; bu iş akışı ona dokunmaz.
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: yayin
+  cancel-in-progress: false
+
+jobs:
+  yayin:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Bağımlılıkları kur
+        run: npm ci
+
+      - name: Derle ve Cloudflare Worker'a yayınla
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: 6e2fdbb8022e239aa0db1c01f53fcfda
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then echo "CLOUDFLARE_API_TOKEN secret'ı tanımlı değil."; exit 1; fi
+          npm run deploy
+
+      - name: Canlı kontrol
+        run: |
+          sleep 20
+          curl -fsS -o /dev/null https://serdivanreklamajansi.com/
+          curl -fsS https://serdivanreklamajansi.com/robots.txt | grep -q "Allow: /"
