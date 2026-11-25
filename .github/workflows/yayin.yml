@@ -1,9 +1,12 @@
-name: "Elle yayın (main)"
+name: "Yayın (main)"
 
-# main dalındaki sürümü Cloudflare Workers'a yayınlar. Yalnızca elle başlatılır (Actions > Elle yayın > Run workflow).
-# SEO ajanının yayın kapısı (ajan-kapi.yml) kendi yayınını kendisi yapar; bu iş akışı ona dokunmaz.
+# main dalına her gönderimde (PR birleşince) siteyi yayınlar; Actions sekmesinden elle de başlatılabilir.
+# SEO ajanının yayın kapısı (ajan-kapi.yml) kendi yayınını kendisi yapar: onun GITHUB_TOKEN ile yaptığı
+# gönderimler bu iş akışını tetiklemez, yani çift yayın olmaz.
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 concurrency:
