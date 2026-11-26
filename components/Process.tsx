@@ -6,7 +6,7 @@ export default function Process({ content }: { content: HomeProcessContent }) {
   return (
     <section className="section" aria-labelledby="surec">
       <div className="container-x">
-        <SectionHeading eyebrow={content.eyebrow} title={content.title} description={content.description} />
+        <SectionHeading id="surec" eyebrow={content.eyebrow} title={content.title} description={content.description} />
         <ol className="process-steps mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
           {content.steps.map((step, index) => (
             <li key={step.title} className="card reveal relative p-6">

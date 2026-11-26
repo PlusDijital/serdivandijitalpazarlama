@@ -9,7 +9,7 @@ export default function CaseStudies({ content }: { content: HomeCaseStudiesConte
   return (
     <section className="section" aria-labelledby="vakalar">
       <div className="container-x">
-        <SectionHeading eyebrow={content.eyebrow} title={content.title} description={content.description} />
+        <SectionHeading id="vakalar" eyebrow={content.eyebrow} title={content.title} description={content.description} />
         <ul className="mt-12 grid gap-5 lg:grid-cols-3">
           {content.items.map((item) => (
             <li key={item.client} className="card reveal flex flex-col p-6 md:p-7">

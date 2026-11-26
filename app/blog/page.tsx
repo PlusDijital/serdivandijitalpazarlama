@@ -5,7 +5,7 @@ import JsonLd from "@/components/JsonLd";
 import PageHero from "@/components/PageHero";
 import PostCard from "@/components/PostCard";
 import { getCmsData } from "@/lib/cms";
-import { breadcrumbSchema, graph } from "@/lib/schema";
+import { breadcrumbSchema, graph, itemListSchema, webPageSchema } from "@/lib/schema";
 import { buildPageMetadata } from "@/lib/seo";
 
 const cms = getCmsData();
@@ -17,8 +17,24 @@ export default function Blog() {
 
   return (
     <>
-      <JsonLd data={graph(breadcrumbSchema(cms.site, [{ name: "Blog", path: "/blog" }]))} />
-      <Header site={cms.site} header={cms.header} />
+      <JsonLd
+        data={graph(
+          webPageSchema(cms.site, {
+            path: "/blog",
+            name: cms.blogIndex.seo.title,
+            description: cms.blogIndex.seo.description,
+            type: "CollectionPage",
+            dateModified: cms.blogPosts.map((post) => post.updatedAt).sort().at(-1),
+          }),
+          breadcrumbSchema(cms.site, [{ name: "Blog", path: "/blog" }]),
+          itemListSchema(
+            cms.site,
+            "Serdivan Reklam Ajansı rehber yazıları",
+            cms.blogPosts.map((post) => ({ name: post.title, path: `/blog/${post.slug}` })),
+          ),
+        )}
+      />
+      <Header site={cms.site} header={cms.header} current="/blog" />
       <main id="icerik">
         <PageHero
           eyebrow={cms.blogIndex.hero.eyebrow}

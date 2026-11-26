@@ -36,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="tr" className={manrope.variable}>
       <body className="pb-[4.75rem] antialiased md:pb-0">
-        <JsonLd data={graph(organizationSchema(cms.site), websiteSchema(cms.site))} />
+        <JsonLd data={graph(organizationSchema(cms.site, cms.serviceLandingPages), websiteSchema(cms.site))} />
         <a
           href="#icerik"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-ink focus:px-4 focus:py-2 focus:text-white"

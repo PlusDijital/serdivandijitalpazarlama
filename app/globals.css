@@ -158,15 +158,80 @@
     color: var(--color-accent);
   }
 
-  /* Hero arka planı: saf CSS nokta ızgarası + yumuşak renk, görsel dosyası yok. */
+  /* Hero arka planı: saf CSS nokta ızgarası + iki yumuşak ışık, görsel dosyası yok. */
   .hero-bg {
     background-color: var(--color-surface);
     background-image:
-      radial-gradient(60rem 30rem at 85% -10%, rgba(14, 124, 102, 0.1), transparent 60%),
+      radial-gradient(48rem 26rem at 88% -8%, rgba(14, 124, 102, 0.14), transparent 62%),
+      radial-gradient(34rem 20rem at -8% 110%, rgba(52, 211, 168, 0.1), transparent 60%),
       radial-gradient(circle at 1px 1px, rgba(11, 27, 51, 0.07) 1px, transparent 0);
     background-size:
       auto,
+      auto,
       22px 22px;
+  }
+
+  /* İç sayfa başlıkları: hero ile aynı dil, daha sakin. */
+  .page-hero-bg {
+    background-color: var(--color-surface);
+    background-image:
+      radial-gradient(40rem 18rem at 100% 0%, rgba(14, 124, 102, 0.09), transparent 62%),
+      radial-gradient(circle at 1px 1px, rgba(11, 27, 51, 0.045) 1px, transparent 0);
+    background-size:
+      auto,
+      22px 22px;
+  }
+
+  /* Menüde bulunulan sayfa. */
+  .nav-link[aria-current="page"] {
+    background: var(--color-surface-soft);
+    box-shadow: inset 0 -2px 0 var(--color-accent);
+  }
+
+  /* Hero paneli: açılışta bir kez belirir; yüzen kartlar çok yavaş salınır (yalnızca transform/opacity). */
+  .hero-in {
+    animation: hero-in 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+  .float-slow {
+    animation: float-y 7s ease-in-out infinite;
+  }
+  .float-slower {
+    animation: float-y 9s ease-in-out infinite reverse;
+  }
+  .bar-grow {
+    transform-origin: bottom;
+    animation: bar-grow 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+
+  /* Yazı sayfasında okuma ilerlemesi: kaydırma zaman çizelgesi destekleyen tarayıcılarda, JS yok. */
+  .read-progress {
+    display: none;
+  }
+  @supports (animation-timeline: scroll()) {
+    .read-progress {
+      display: block;
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 60;
+      height: 3px;
+      background: linear-gradient(90deg, var(--color-accent), #34d3a8);
+      transform-origin: 0 50%;
+      animation: read-progress linear both;
+      animation-timeline: scroll(root block);
+    }
+  }
+
+  /* Sayfa içi gezinme hapları (hizmet sayfası). */
+  .anchor-nav a {
+    transition:
+      border-color 0.18s ease,
+      color 0.18s ease,
+      background-color 0.18s ease;
+  }
+  .anchor-nav a:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    background: var(--color-accent-soft);
   }
 
   /* Başlık vurgusu: metnin altında yumuşak vurgu şeridi (görsel dosyası yok). */
@@ -246,12 +311,55 @@
     }
   }
   @media (prefers-reduced-motion: reduce) {
-    .reveal {
+    .reveal,
+    .hero-in,
+    .float-slow,
+    .float-slower,
+    .bar-grow,
+    .read-progress {
       animation: none;
     }
     html {
       scroll-behavior: auto;
     }
+  }
+}
+
+/* Yalnızca transform: animasyon herhangi bir nedenle ilerlemezse panel yine görünür kalır. */
+@keyframes hero-in {
+  from {
+    transform: translateY(16px) scale(0.975);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes bar-grow {
+  from {
+    transform: scaleY(0.45);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes read-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
   }
 }
 

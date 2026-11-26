@@ -45,6 +45,7 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  poweredByHeader: false,
   // Cloudflare Workers'ta Next görsel optimizasyonu yok; görseller önceden AVIF/WebP hazırlanır.
   images: { unoptimized: true },
   async redirects() {

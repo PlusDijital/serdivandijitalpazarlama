@@ -27,7 +27,11 @@ export default function Footer({
           </Link>
         </div>
 
-        <div className="grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
+        <div
+          className={`grid gap-10 py-14 md:grid-cols-2 ${
+            footer.guideLinks?.length ? "lg:grid-cols-[1.35fr_0.75fr_1fr_1.05fr_1.15fr]" : "lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]"
+          }`}
+        >
           <div>
             <Link href="/" className="flex items-center gap-2.5">
               <Logo light />
@@ -44,6 +48,9 @@ export default function Footer({
 
           <FooterList title={footer.quickLinksTitle} links={footer.quickLinks} />
           <FooterList title={footer.serviceLinksTitle} links={footer.serviceLinks} />
+          {footer.guideLinks?.length ? (
+            <FooterList title={footer.guideLinksTitle ?? "Rehberler"} links={footer.guideLinks} />
+          ) : null}
 
           <div>
             <h2 className="text-xs font-bold uppercase tracking-[0.14em] text-white/60">{footer.contactTitle}</h2>

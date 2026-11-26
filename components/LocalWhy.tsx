@@ -7,7 +7,7 @@ export default function LocalWhy({ content }: { content: HomeLocalContent }) {
     <section className="section border-y border-line bg-surface" aria-labelledby="yerel">
       <div className="container-x grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
         <div>
-          <SectionHeading eyebrow={content.eyebrow} title={content.title} description={content.description} />
+          <SectionHeading id="yerel" eyebrow={content.eyebrow} title={content.title} description={content.description} />
           <ul className="mt-8 flex flex-wrap gap-2" aria-label="Hizmet verdiğimiz bölgeler">
             {content.areas.map((area) => (
               <li
