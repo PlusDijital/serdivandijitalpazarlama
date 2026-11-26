@@ -41,7 +41,10 @@ Adım adım yapılacaklar `docs/` klasöründe:
 
 ## SEO / GEO
 
-- Her sayfada "Kısaca" özet kutusu ve JSON-LD (ProfessionalService + parentOrganization, Service, FAQPage, BlogPosting, BreadcrumbList).
-- `/llms.txt` ve `/llms-full.txt` yapay zeka asistanları için.
+- Her sayfada "Kısaca" özet kutusu (`data-kisaca`, schema'da `speakable`) ve JSON-LD: ProfessionalService + parentOrganization + hasOfferCatalog (her sayfada), WebPage/AboutPage/ContactPage/CollectionPage, Service, FAQPage, BlogPosting, BreadcrumbList, ItemList.
+- Ana sayfada "Künye" (tanım listesi): hizmet bölgesi, hizmetler, çalışma saatleri. İçerik `lib/cms-defaults.ts` > `home.facts`; çalışma saatleri değişirse `site.business.openingHours` ve `footer.workingHoursValue` birlikte güncellenir.
+- `/llms.txt` ve `/llms-full.txt` (hizmetler + rehber yazılarının tam metni) yapay zeka asistanları için; `/feed.xml` RSS beslemesi.
 - `robots.txt` GPTBot, ClaudeBot, PerplexityBot vb. botlara açıkça izin verir.
-- Hedef: PageSpeed mobil 4×100. Ana sayfada client JavaScript yok; tek font; hero'da görsel yok.
+- Paylaşım görseli: kökte `app/opengraph-image.tsx`, yazı ve hizmet başına ayrı `opengraph-image.tsx`. Bir sayfa `openGraph` verince kökteki görsel miras alınmaz; bu yüzden meta her zaman `lib/seo.ts` içindeki `buildPageMetadata` / `socialMetadata` ile üretilir.
+- Başlık ≤ 62, açıklama 110–160 karakter. Yeni sayfa ekleyince derlemeden sonra `.next/server/app/*.html` üzerinde kontrol edin.
+- Hedef: PageSpeed mobil 4×100. Ana sayfada client JavaScript yok; tek font; hero'da görsel yok; animasyonlar yalnızca CSS (transform/opacity).

@@ -21,7 +21,7 @@ export default function Faq({
             {title}
           </h2>
         ) : (
-          <SectionHeading eyebrow={eyebrow} title={title} />
+          <SectionHeading id="sss" eyebrow={eyebrow} title={title} />
         )}
         <div className={`divide-y divide-line rounded-[var(--radius-card)] border border-line bg-surface ${compact ? "mt-6" : ""}`}>
           {items.map((item, index) => (

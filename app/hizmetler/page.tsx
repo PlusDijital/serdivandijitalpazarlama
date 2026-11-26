@@ -7,7 +7,7 @@ import Header from "@/components/Header";
 import JsonLd from "@/components/JsonLd";
 import PageHero from "@/components/PageHero";
 import { getCmsData } from "@/lib/cms";
-import { breadcrumbSchema, graph } from "@/lib/schema";
+import { breadcrumbSchema, graph, itemListSchema, webPageSchema } from "@/lib/schema";
 import { buildPageMetadata } from "@/lib/seo";
 
 const cms = getCmsData();
@@ -19,8 +19,24 @@ export default function ServicesPage() {
 
   return (
     <>
-      <JsonLd data={graph(breadcrumbSchema(cms.site, [{ name: "Hizmetler", path: "/hizmetler" }]))} />
-      <Header site={cms.site} header={cms.header} />
+      <JsonLd
+        data={graph(
+          webPageSchema(cms.site, {
+            path: "/hizmetler",
+            name: page.seo.title,
+            description: page.seo.description,
+            type: "CollectionPage",
+            speakable: true,
+          }),
+          breadcrumbSchema(cms.site, [{ name: "Hizmetler", path: "/hizmetler" }]),
+          itemListSchema(
+            cms.site,
+            "Serdivan Reklam Ajansı hizmetleri",
+            cms.serviceLandingPages.map((service) => ({ name: service.title, path: `/hizmetler/${service.slug}` })),
+          ),
+        )}
+      />
+      <Header site={cms.site} header={cms.header} current="/hizmetler" />
       <main id="icerik">
         <PageHero
           eyebrow={page.hero.eyebrow}

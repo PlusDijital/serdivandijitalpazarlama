@@ -78,7 +78,7 @@ export const blogC: BlogPost[] = [
   {
     slug: "serdivan-google-ads-mi-instagram-reklami-mi",
     title: "Serdivan'da Google Ads mi, Instagram Reklamı mı? Sektöre Göre Kanal Seçimi",
-    metaTitle: "Google Ads mi Instagram Reklamı mı? Serdivan İşletmeleri İçin Rehber",
+    metaTitle: "Google Ads mi Instagram Reklamı mı? Serdivan İçin Rehber",
     metaDescription:
       "Serdivan'daki kafe, klinik, emlak, kurs ve hizmet işletmeleri için Google Ads ile Instagram reklamı karşılaştırması: hangi kanal ne zaman, hangi bütçeyle.",
     excerpt:

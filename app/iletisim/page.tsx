@@ -6,7 +6,7 @@ import JsonLd from "@/components/JsonLd";
 import PageHero from "@/components/PageHero";
 import { getCmsData } from "@/lib/cms";
 import { ContentIcon } from "@/lib/icon-map";
-import { breadcrumbSchema, graph, orgId } from "@/lib/schema";
+import { breadcrumbSchema, graph, webPageSchema } from "@/lib/schema";
 import { buildPageMetadata } from "@/lib/seo";
 
 const cms = getCmsData();
@@ -16,20 +16,19 @@ export const metadata: Metadata = buildPageMetadata(cms.site, cms.contact.seo);
 export default function ContactPage() {
   const content = cms.contact;
   const structuredData = graph(
-    {
-      "@type": "ContactPage",
-      "@id": `${cms.site.siteUrl}/iletisim#contact`,
-      url: `${cms.site.siteUrl}/iletisim`,
+    webPageSchema(cms.site, {
+      path: "/iletisim",
       name: content.seo.title,
-      about: { "@id": orgId(cms.site) },
-    },
+      description: content.seo.description,
+      type: "ContactPage",
+    }),
     breadcrumbSchema(cms.site, [{ name: "İletişim", path: "/iletisim" }]),
   );
 
   return (
     <>
       <JsonLd data={structuredData} />
-      <Header site={cms.site} header={cms.header} />
+      <Header site={cms.site} header={cms.header} current="/iletisim" />
       <main id="icerik">
         <PageHero
           eyebrow={content.hero.eyebrow}

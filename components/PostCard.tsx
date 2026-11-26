@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, Clock } from "lucide-react";
 import PostCover from "@/components/PostCover";
 import { coverTheme } from "@/lib/covers";
+import { formatDate } from "@/lib/date";
 import type { BlogPost } from "@/lib/cms-types";
 
 export default function PostCard({ post, featured = false }: { post: BlogPost; featured?: boolean }) {
@@ -25,7 +26,7 @@ export default function PostCard({ post, featured = false }: { post: BlogPost; f
       <div className={`flex flex-1 flex-col ${featured ? "p-7 md:p-10" : "p-6"}`}>
         <div className="flex flex-wrap items-center gap-3 text-xs font-semibold text-muted">
           <span className="rounded-full bg-accent-soft px-2.5 py-1 text-accent">{post.category}</span>
-          <time dateTime={post.updatedAt}>{post.date}</time>
+          <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
           <span className="inline-flex items-center gap-1">
             <Clock size={12} aria-hidden />
             {post.readTime}

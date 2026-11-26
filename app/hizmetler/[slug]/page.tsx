@@ -10,8 +10,11 @@ import PageHero from "@/components/PageHero";
 import PostCard from "@/components/PostCard";
 import RichText from "@/components/RichText";
 import SectionHeading from "@/components/SectionHeading";
+import ServiceAside from "@/components/ServiceAside";
 import { getBlogPostsBySlugs, getCmsData, getServiceBySlug } from "@/lib/cms";
-import { breadcrumbSchema, faqSchema, graph, orgId } from "@/lib/schema";
+import { breadcrumbSchema, faqSchema, graph, orgId, serviceId, webPageSchema } from "@/lib/schema";
+import { pageAlternates, socialMetadata } from "@/lib/seo";
+import { slugify } from "@/lib/slug";
 
 type Params = Promise<{ slug: string }>;
 
@@ -41,14 +44,13 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   return {
     title: { absolute: service.metaTitle },
     description: service.metaDescription,
-    alternates: { canonical: `/hizmetler/${service.slug}` },
-    openGraph: {
+    keywords: [service.primaryKeyword, ...service.secondaryKeywords],
+    alternates: pageAlternates(cms.site, `/hizmetler/${service.slug}`),
+    ...socialMetadata(cms.site, {
       title: service.metaTitle,
       description: service.metaDescription,
-      url: `/hizmetler/${service.slug}`,
-      type: "website",
-      locale: "tr_TR",
-    },
+      path: `/hizmetler/${service.slug}`,
+    }),
   };
 }
 
@@ -61,15 +63,34 @@ export default async function ServiceDetailPage({ params }: { params: Params }) 
   const sister = SISTER_PAGE[service.slug];
   const otherServices = cms.serviceLandingPages.filter((item) => item.slug !== service.slug);
   const pageUrl = `${cms.site.siteUrl}/hizmetler/${service.slug}`;
+  const sections = (service.sections ?? []).map((section) => ({ ...section, id: slugify(section.heading) }));
+  const anchors = [
+    { href: "#kazanimlar", label: "Kazanımlar" },
+    { href: "#kapsam", label: "Kapsam" },
+    ...(sections.length > 0 ? [{ href: "#detaylar", label: "Detaylar" }] : []),
+    { href: "#surec", label: "Süreç" },
+    ...(service.faq.length > 0 ? [{ href: "#sss", label: "Sık sorulanlar" }] : []),
+  ];
   const structuredData = graph(
+    webPageSchema(cms.site, {
+      path: `/hizmetler/${service.slug}`,
+      name: service.metaTitle,
+      description: service.metaDescription,
+      speakable: Boolean(service.summary),
+      mainEntityId: serviceId(cms.site, service.slug),
+    }),
     {
       "@type": "Service",
-      "@id": `${pageUrl}#service`,
+      "@id": serviceId(cms.site, service.slug),
       name: service.title,
+      alternateName: service.primaryKeyword,
       description: service.summary ?? service.metaDescription,
-      serviceType: service.primaryKeyword,
+      serviceType: service.navLabel,
+      category: "Reklam ve dijital pazarlama",
       url: pageUrl,
+      image: `${pageUrl}/opengraph-image`,
       provider: { "@id": orgId(cms.site) },
+      audience: { "@type": "BusinessAudience", name: "Serdivan ve Sakarya'daki yerel işletmeler" },
       areaServed: service.localFocus.map((name) => ({ "@type": "City", name })),
       hasOfferCatalog: {
         "@type": "OfferCatalog",
@@ -90,7 +111,7 @@ export default async function ServiceDetailPage({ params }: { params: Params }) 
   return (
     <>
       <JsonLd data={structuredData} />
-      <Header site={cms.site} header={cms.header} />
+      <Header site={cms.site} header={cms.header} current={`/hizmetler/${service.slug}`} />
       <main id="icerik">
         <PageHero
           eyebrow={service.eyebrow}
@@ -98,6 +119,13 @@ export default async function ServiceDetailPage({ params }: { params: Params }) 
           description={service.heroDescription}
           crumbs={[{ name: "Hizmetler", path: "/hizmetler" }, { name: service.title }]}
           summary={service.summary}
+          aside={
+            <ServiceAside
+              serviceTitle={service.title}
+              phone={cms.site.business?.phone}
+              whatsapp={cms.site.business?.whatsapp}
+            />
+          }
         >
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <Link href="/iletisim" className="btn btn-primary">
@@ -111,10 +139,25 @@ export default async function ServiceDetailPage({ params }: { params: Params }) 
           </div>
         </PageHero>
 
+        <nav aria-label="Sayfa içi gezinme" className="anchor-nav border-b border-line bg-bg">
+          <ul className="container-x flex gap-2 overflow-x-auto py-3 [scrollbar-width:none]">
+            {anchors.map((anchor) => (
+              <li key={anchor.href} className="shrink-0">
+                <a
+                  href={anchor.href}
+                  className="inline-flex min-h-10 items-center rounded-full border border-line bg-surface px-4 text-sm font-semibold text-ink-soft"
+                >
+                  {anchor.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
         <section className="section">
           <div className="container-x grid gap-8 lg:grid-cols-[1fr_1fr]">
             <div className="card p-7 md:p-8">
-              <h2 className="text-2xl font-extrabold text-ink">Bu hizmetle ne kazanırsınız?</h2>
+              <h2 id="kazanimlar" className="scroll-mt-28 text-2xl font-extrabold text-ink">Bu hizmetle ne kazanırsınız?</h2>
               <ul className="mt-6 space-y-4">
                 {service.benefits.map((benefit) => (
                   <li key={benefit} className="flex gap-3 text-[0.9375rem] leading-7 text-ink-soft">
@@ -125,7 +168,7 @@ export default async function ServiceDetailPage({ params }: { params: Params }) 
               </ul>
             </div>
             <div className="card p-7 md:p-8">
-              <h2 className="text-2xl font-extrabold text-ink">Kapsam</h2>
+              <h2 id="kapsam" className="scroll-mt-28 text-2xl font-extrabold text-ink">Kapsam</h2>
               <ul className="mt-6 space-y-3">
                 {service.deliverables.map((item) => (
                   <li key={item} className="flex gap-3 rounded-lg bg-surface-soft px-4 py-3 text-[0.9375rem] leading-6 text-ink-soft">
@@ -138,13 +181,15 @@ export default async function ServiceDetailPage({ params }: { params: Params }) 
           </div>
         </section>
 
-        {service.sections && service.sections.length > 0 ? (
-          <section className="border-y border-line bg-surface py-16 md:py-20">
+        {sections.length > 0 ? (
+          <section id="detaylar" className="scroll-mt-24 border-y border-line bg-surface py-16 md:py-20">
             <div className="container-x">
               <div className="mx-auto max-w-3xl space-y-12">
-                {service.sections.map((section) => (
-                  <article key={section.heading}>
-                    <h2 className="mb-4 text-2xl font-extrabold leading-tight text-ink sm:text-3xl">{section.heading}</h2>
+                {sections.map((section, index) => (
+                  <article key={`${section.id}-${index}`}>
+                    <h2 id={section.id} className="mb-4 scroll-mt-28 text-2xl font-extrabold leading-tight text-ink sm:text-3xl">
+                      {section.heading}
+                    </h2>
                     <RichText text={section.body} />
                   </article>
                 ))}
@@ -167,7 +212,7 @@ export default async function ServiceDetailPage({ params }: { params: Params }) 
 
         <section className="section">
           <div className="container-x">
-            <SectionHeading eyebrow="Süreç" title="Nasıl ilerliyoruz?" />
+            <SectionHeading id="surec" eyebrow="Süreç" title="Nasıl ilerliyoruz?" />
             <ol className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
               {service.process.map((step, index) => (
                 <li key={step.title} className="card reveal p-6">
@@ -190,7 +235,7 @@ export default async function ServiceDetailPage({ params }: { params: Params }) 
           <section className="section">
             <div className="container-x">
               <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-                <SectionHeading eyebrow="Rehberler" title="Bu hizmetle ilgili yazılar" />
+                <SectionHeading id="ilgili-yazilar" eyebrow="Rehberler" title="Bu hizmetle ilgili yazılar" />
                 <Link href="/blog" className="btn btn-secondary">
                   Tüm yazılar
                 </Link>

@@ -85,6 +85,8 @@ export type SiteSettings = {
     googleBusinessProfileUrl?: string;
     sameAs?: string[];
     foundingDate?: string;
+    /** Schema'daki openingHoursSpecification; days schema.org gün adlarıdır (Monday…). */
+    openingHours?: { days: string[]; opens: string; closes: string };
   };
 };
 
@@ -116,6 +118,9 @@ export type FooterContent = {
   socialLinks: SocialLink[];
   quickLinks: LinkItem[];
   serviceLinks: LinkItem[];
+  /** Site genelinde öne çıkarılan rehber yazıları (iç bağlantı). */
+  guideLinksTitle?: string;
+  guideLinks?: LinkItem[];
   contactItems: ContactItem[];
   workingHoursLabel: string;
   workingHoursValue: string;
@@ -176,7 +181,14 @@ export type HomeSectorsContent = {
   eyebrow: string;
   title: string;
   description: string;
-  items: { icon: IconName; title: string; description: string }[];
+  items: { icon: IconName; title: string; description: string; href?: string; linkLabel?: string }[];
+};
+
+export type HomeGuidesContent = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  cta: LinkItem;
 };
 
 export type HomeTrustContent = {
@@ -229,10 +241,13 @@ export type HomeContent = {
   hero: HomeHeroContent;
   /** 40-60 kelimelik doğrudan cevap; öne çıkan snippet ve yapay zeka aramaları için. */
   summary: string;
+  /** "Kısaca" kutusunun yanındaki künye: yapay zeka cevaplarında doğrudan alıntılanabilen olgular. */
+  facts: { label: string; value: string }[];
   services: HomeServicesContent;
   local: HomeLocalContent;
   process: HomeProcessContent;
   sectors: HomeSectorsContent;
+  guides: HomeGuidesContent;
   faq: { eyebrow: string; title: string; items: Faq[] };
   caseStudies: HomeCaseStudiesContent;
   trust: HomeTrustContent;

@@ -9,7 +9,7 @@ export default function Services({ content }: { content: HomeServicesContent }) 
   return (
     <section className="section" aria-labelledby="hizmetler">
       <div className="container-x">
-        <SectionHeading eyebrow={content.eyebrow} title={content.title} description={content.description} />
+        <SectionHeading id="hizmetler" eyebrow={content.eyebrow} title={content.title} description={content.description} />
         <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {content.cards.map((card, index) => (
             <li

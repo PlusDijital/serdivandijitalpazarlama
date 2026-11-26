@@ -8,7 +8,7 @@ import PageHero from "@/components/PageHero";
 import SectionHeading from "@/components/SectionHeading";
 import { getCmsData } from "@/lib/cms";
 import { ContentIcon } from "@/lib/icon-map";
-import { breadcrumbSchema, graph, orgId } from "@/lib/schema";
+import { breadcrumbSchema, graph, orgId, webPageSchema } from "@/lib/schema";
 import { buildPageMetadata } from "@/lib/seo";
 
 const cms = getCmsData();
@@ -22,6 +22,13 @@ export default function About() {
     <>
       <JsonLd
         data={graph(
+          webPageSchema(cms.site, {
+            path: "/hakkimizda",
+            name: about.seo.title,
+            description: about.seo.description,
+            type: "AboutPage",
+            speakable: true,
+          }),
           breadcrumbSchema(cms.site, [{ name: "Hakkımızda", path: "/hakkimizda" }]),
           ...about.team.items.map((member) => ({
             "@type": "Person",
@@ -34,7 +41,7 @@ export default function About() {
           })),
         )}
       />
-      <Header site={cms.site} header={cms.header} />
+      <Header site={cms.site} header={cms.header} current="/hakkimizda" />
       <main id="icerik">
         <PageHero
           eyebrow={about.hero.eyebrow}
@@ -60,9 +67,9 @@ export default function About() {
           </div>
         </section>
 
-        <section className="border-y border-line bg-surface py-16 md:py-20">
+        <section className="border-y border-line bg-surface py-16 md:py-20" aria-labelledby="prensipler">
           <div className="container-x">
-            <SectionHeading eyebrow={about.values.eyebrow} title={about.values.title} />
+            <SectionHeading id="prensipler" eyebrow={about.values.eyebrow} title={about.values.title} />
             <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {about.values.items.map((value) => (
                 <li key={value.title} className="reveal rounded-[var(--radius-card)] border border-line bg-bg p-6">

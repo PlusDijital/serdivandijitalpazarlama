@@ -14,6 +14,8 @@ const SITE_URL = "https://serdivanreklamajansi.com";
 const EMAIL = "info@serdivanreklamajansi.com";
 const PHONE_DISPLAY = "0551 614 54 54";
 const PHONE_E164 = "+905516145454";
+const WHATSAPP = "905516145454";
+const AREAS_TEXT = "Serdivan, Adapazarı, Erenler ve Sakarya";
 
 function withBlogDefaults(posts: BlogPostContent[]): BlogPost[] {
   return posts.map((post) => ({
@@ -64,13 +66,19 @@ export const defaultCmsData: CmsData = {
       // Schema ve llms.txt'de kullanılır; sayfalarda contactItems üzerinden gösterilir.
       phone: PHONE_E164,
       // Plus Dijital WhatsApp hattı (plusdijital.com'da herkese açık). Boş bırakılırsa butonlar gizlenir.
-      whatsapp: "905516145454",
+      whatsapp: WHATSAPP,
       email: EMAIL,
       // Açık adres yok: hizmet bölgesi işletmesi olarak işaretlenir.
       streetAddress: "",
       areaServed: ["Serdivan", "Adapazarı", "Erenler", "Sakarya"],
       googleBusinessProfileUrl: "",
       sameAs: ["https://plusdijital.com"],
+      // Footer'daki "Pzt – Cuma: 09:00–18:00" ile aynı olmalı.
+      openingHours: {
+        days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        opens: "09:00",
+        closes: "18:00",
+      },
     },
   },
   header: {
@@ -110,19 +118,23 @@ export const defaultCmsData: CmsData = {
       { href: "/hizmetler/serdivan-dijital-pazarlama-ajansi", label: "Dijital Pazarlama" },
       { href: "/hizmetler/serdivan-geo-yapay-zeka-arama-optimizasyonu", label: "GEO / Yapay Zeka Arama" },
     ],
+    guideLinksTitle: "Öne çıkan rehberler",
+    guideLinks: [
+      { href: "/blog/serdivan-reklam-ajansi-fiyatlari", label: "Reklam ajansı fiyatları" },
+      { href: "/blog/serdivan-reklam-ajansi-nasil-secilir", label: "Reklam ajansı nasıl seçilir?" },
+      { href: "/blog/google-ads-butcesi-ne-kadar-olmali", label: "Google Ads bütçesi" },
+      { href: "/blog/serdivan-web-tasarim-fiyatlari", label: "Web tasarım fiyatları" },
+      { href: "/blog/serdivan-isletmeleri-icin-yerel-seo-rehberi", label: "Yerel SEO rehberi" },
+      { href: "/blog/geo-nedir-yapay-zeka-aramalarinda-gorunur-olmak", label: "GEO nedir?" },
+    ],
     contactItems: [
       { icon: "phone", label: "Telefon", value: PHONE_DISPLAY, href: `tel:${PHONE_E164}` },
       { icon: "mail", label: "E-posta", value: EMAIL, href: `mailto:${EMAIL}` },
-      {
-        icon: "send",
-        label: "WhatsApp",
-        value: "0551 614 54 54",
-        href: "https://wa.me/905516145454",
-      },
+      { icon: "send", label: "WhatsApp", value: PHONE_DISPLAY, href: `https://wa.me/${WHATSAPP}` },
       {
         icon: "map-pin",
         label: "Hizmet bölgesi",
-        value: "Serdivan, Adapazarı, Erenler ve Sakarya",
+        value: AREAS_TEXT,
         href: "",
       },
     ],
@@ -135,7 +147,7 @@ export const defaultCmsData: CmsData = {
     seo: {
       title: "Serdivan Reklam Ajansı | Google Ads, Instagram Reklam, SEO ve Web Tasarım",
       description:
-        "Serdivan reklam ajansı: Google Ads, Instagram reklamları, SEO, sosyal medya ve web tasarımı tek ekipten alın. Adres değil sonuç odaklı, şeffaf raporlu yerel ajans. Ücretsiz teklif.",
+        "Serdivan reklam ajansı: Google Ads, Instagram reklamları, SEO, sosyal medya ve web tasarım tek ekipten. Şeffaf raporlu yerel ajans. Ücretsiz teklif alın.",
       keywords: [
         "Serdivan reklam ajansı",
         "Serdivan reklamcı",
@@ -164,6 +176,14 @@ export const defaultCmsData: CmsData = {
     },
     summary:
       "Serdivan Reklam Ajansı, Sakarya'nın Serdivan ilçesindeki kafe, klinik, emlak ofisi, eğitim kurumu, e-ticaret ve hizmet işletmeleri için Google Ads, Instagram ve Facebook reklamları, yerel SEO, sosyal medya yönetimi ve web tasarım hizmeti veren yerel bir reklam ajansıdır. Amacı, reklam bütçesini telefon, form ve satış gibi ölçülebilir müşteri aksiyonlarına dönüştürmektir.",
+    facts: [
+      { label: "Hizmet bölgesi", value: `${AREAS_TEXT} geneli` },
+      { label: "Hizmetler", value: "Google Ads, Instagram ve Facebook reklamları, yerel SEO, sosyal medya, web tasarım, GEO" },
+      { label: "Çalışma saatleri", value: "Pazartesi–Cuma 09:00–18:00" },
+      { label: "İlk analiz", value: "Ücretsiz, sözleşme şartı yok" },
+      { label: "Dönüş süresi", value: "İş günlerinde aynı gün" },
+      { label: "Üst marka", value: "Plus Dijital (Google Partner)" },
+    ],
     services: {
       eyebrow: "Hizmetler",
       title: "Serdivan'da işletmenize müşteri getiren yedi hizmet",
@@ -303,33 +323,52 @@ export const defaultCmsData: CmsData = {
           icon: "coffee",
           title: "Kafe ve restoran",
           description: "Instagram görünürlüğü, Google Haritalar yorumları ve kampüs takvimine göre kampanyalar.",
+          href: "/blog/serdivan-kafe-restoran-instagram-reklami",
+          linkLabel: "Kafe ve restoran rehberi",
         },
         {
           icon: "stethoscope",
           title: "Klinik ve sağlık",
           description: "Randevu odaklı Google Ads, güven veren web sitesi ve yerel SEO.",
+          href: "/blog/serdivan-dis-klinigi-google-ads",
+          linkLabel: "Klinikler için Google Ads rehberi",
         },
         {
           icon: "home",
           title: "Emlak ve inşaat",
           description: "Proje bazlı reklam kampanyaları, form ve WhatsApp dönüşüm takibi.",
+          href: "/blog/serdivan-google-ads-mi-instagram-reklami-mi",
+          linkLabel: "Sektöre göre kanal seçimi",
         },
         {
           icon: "graduation-cap",
           title: "Eğitim ve kurs",
           description: "Kayıt dönemine göre planlanan reklamlar ve öğrenci kitlesine uygun içerik.",
+          href: "/hizmetler/serdivan-instagram-reklam-yonetimi",
+          linkLabel: "Instagram reklam yönetimi",
         },
         {
           icon: "shopping-cart",
           title: "E-ticaret",
           description: "Performance Max, ürün kataloğu reklamları ve dönüşüm oranı iyileştirme.",
+          href: "/hizmetler/serdivan-dijital-pazarlama-ajansi",
+          linkLabel: "Dijital pazarlama yönetimi",
         },
         {
           icon: "wrench",
           title: "Hizmet işletmeleri",
           description: "Tesisat, tamir, nakliye gibi acil ihtiyaçlarda arama anında görünen Google reklamları.",
+          href: "/hizmetler/serdivan-google-ads-yonetimi",
+          linkLabel: "Google Ads yönetimi",
         },
       ],
+    },
+    guides: {
+      eyebrow: "Rehberler",
+      title: "Karar vermeden önce okuyun",
+      description:
+        "Fiyatlar, bütçe hesabı ve kanal seçimi hakkında Serdivan'daki işletme sahiplerinin en çok sorduğu soruların açık cevapları.",
+      cta: { href: "/blog", label: "Tüm rehberler" },
     },
     faq: {
       eyebrow: "Sık sorulan sorular",
@@ -400,12 +439,12 @@ export const defaultCmsData: CmsData = {
   },
   about: {
     seo: {
-      title: "Hakkımızda: Serdivan'ın Yerel Reklam Ajansı",
+      title: "Hakkımızda: Ekip ve Çalışma Modeli",
       description:
         "Serdivan Reklam Ajansı kimdir, nasıl çalışır, Plus Dijital ile ilişkisi nedir? Ekibimizi ve çalışma modelimizi tanıyın.",
       keywords: ["Serdivan reklam ajansı hakkında", "Plus Dijital Serdivan", "Sakarya reklam ajansı ekibi"],
       canonical: "/hakkimizda",
-      openGraphTitle: "Hakkımızda",
+      openGraphTitle: "Hakkımızda | Serdivan Reklam Ajansı",
       openGraphDescription: "Serdivan Reklam Ajansı'nın ekibi, çalışma modeli ve Plus Dijital ilişkisi.",
     },
     hero: {
@@ -480,12 +519,12 @@ export const defaultCmsData: CmsData = {
   },
   servicesIndex: {
     seo: {
-      title: "Hizmetler: Google Ads, Instagram Reklam, SEO ve Web Tasarım",
+      title: "Hizmetler: Reklam, SEO ve Web Tasarım",
       description:
-        "Serdivan Reklam Ajansı hizmetleri: Google Ads, Instagram ve Facebook reklamları, yerel SEO, sosyal medya yönetimi, web tasarım, dijital pazarlama ve GEO. Kapsam ve süreç her sayfada.",
+        "Serdivan Reklam Ajansı hizmetleri: Google Ads, Instagram ve Facebook reklamları, yerel SEO, sosyal medya, web tasarım ve GEO. Kapsam ve süreç her sayfada.",
       keywords: ["Serdivan reklam ajansı hizmetleri", "Serdivan Google Ads", "Serdivan web tasarım", "Serdivan SEO"],
       canonical: "/hizmetler",
-      openGraphTitle: "Hizmetler",
+      openGraphTitle: "Hizmetler | Serdivan Reklam Ajansı",
       openGraphDescription: "Serdivan'daki işletmeler için reklam, SEO, sosyal medya, web tasarım ve GEO hizmetleri.",
     },
     hero: {
@@ -504,7 +543,7 @@ export const defaultCmsData: CmsData = {
         "Serdivan'da reklam, SEO, sosyal medya veya web sitesi için ücretsiz analiz ve teklif isteyin. Formu doldurun, talebiniz WhatsApp'tan bize ulaşsın.",
       keywords: ["Serdivan reklam ajansı iletişim", "Serdivan reklam teklif", "ücretsiz reklam analizi"],
       canonical: "/iletisim",
-      openGraphTitle: "İletişim",
+      openGraphTitle: "İletişim ve Ücretsiz Teklif | Serdivan Reklam Ajansı",
       openGraphDescription: "Ücretsiz analiz ve teklif formu üzerinden bize ulaşın.",
     },
     hero: {
@@ -519,16 +558,11 @@ export const defaultCmsData: CmsData = {
     contactItems: [
       { icon: "phone", label: "Telefon", value: PHONE_DISPLAY, href: `tel:${PHONE_E164}` },
       { icon: "mail", label: "E-posta", value: EMAIL, href: `mailto:${EMAIL}` },
-      {
-        icon: "send",
-        label: "WhatsApp",
-        value: "0551 614 54 54",
-        href: "https://wa.me/905516145454",
-      },
+      { icon: "send", label: "WhatsApp", value: PHONE_DISPLAY, href: `https://wa.me/${WHATSAPP}` },
       {
         icon: "map-pin",
         label: "Hizmet bölgesi",
-        value: "Serdivan, Adapazarı, Erenler ve Sakarya",
+        value: AREAS_TEXT,
         href: "",
       },
       { icon: "clock", label: "Dönüş süresi", value: "İş günlerinde aynı gün", href: "" },
@@ -581,12 +615,12 @@ export const defaultCmsData: CmsData = {
   },
   blogIndex: {
     seo: {
-      title: "Blog: Serdivan'da Reklam, SEO ve Fiyat Rehberleri",
+      title: "Blog: Reklam, SEO ve Fiyat Rehberleri",
       description:
-        "Reklam ajansı ve web tasarım fiyatları, Google Ads bütçesi, yerel SEO, Google İşletme Profili ve yapay zeka aramaları üzerine Serdivan'daki işletmeler için pratik rehberler.",
+        "Reklam ajansı ve web tasarım fiyatları, Google Ads bütçesi, yerel SEO ve yapay zeka aramaları üzerine Serdivan'daki işletmeler için pratik rehberler.",
       keywords: ["Serdivan reklam fiyatları", "yerel SEO rehberi", "web tasarım fiyatları", "Google Ads bütçesi"],
       canonical: "/blog",
-      openGraphTitle: "Blog",
+      openGraphTitle: "Blog | Serdivan Reklam Ajansı",
       openGraphDescription: "Serdivan'daki işletmeler için reklam, SEO, fiyat ve yapay zeka arama rehberleri.",
     },
     hero: {
